@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Andrew Holder | Endpoint Engineer</title>
+  <meta name="description" content="Andrew Holder — Endpoint Engineer & Security Analyst with 15+ years in enterprise endpoint operations. Open to remote IT roles.">
+  <!-- Open Graph -->
+  <meta property="og:title" content="Andrew Holder | Endpoint Engineer">
+  <meta property="og:description" content="15+ years in endpoint security, deployment & administration. CompTIA A+, Network+, ITIL, MCP. Open to remote IT roles.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       CSS CUSTOM PROPERTIES — edit theme here
+    ============================================================ */
+    :root {
+      --bg-base:        #090d14;
+      --bg-surface:     #0e1520;
+      --bg-card:        #111a28;
+      --bg-card-hover:  #162135;
+      --border:         #1e3050;
+      --border-bright:  #2a4a7a;
+      --accent:         #3b82f6;
+      --accent-bright:  #60a5fa;
+      --accent-glow:    rgba(59,130,246,0.18);
+      --accent-subtle:  rgba(59,130,246,0.08);
+      --teal:           #0ea5e9;
+      --teal-subtle:    rgba(14,165,233,0.08);
+      --text-primary:   #e8edf5;
+      --text-secondary: #8aa0bc;
+      --text-muted:     #4d6580;
+      --font-display:   'Syne', sans-serif;
+      --font-mono:      'JetBrains Mono', monospace;
+      --nav-h:          60px;
+      --radius:         8px;
+      --radius-lg:      14px;
+    }
+
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg-base);
+      color: var(--text-primary);
+      font-family: var(--font-display);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { color: var(--accent-bright); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: #fff; }
+
+    /* ============================================================
+       BACKGROUND GRID TEXTURE
+    ============================================================ */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    body > * { position: relative; z-index: 1; }
+
+    /* ============================================================
+       STICKY NAV
+    ============================================================ */
+    #nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      background: rgba(9,13,20,0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      z-index: 100;
+      transition: border-color 0.3s;
+    }
+    .nav-brand {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--accent-bright);
+      letter-spacing: 0.05em;
+    }
+    .nav-brand span { color: var(--text-muted); }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent-bright); }
+    .nav-download {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 6px 16px;
+      border: 1px solid var(--accent);
+      border-radius: var(--radius);
+      color: var(--accent-bright);
+      background: var(--accent-subtle);
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.05em;
+    }
+    .nav-download:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* ============================================================
+       LAYOUT
+    ============================================================ */
+    .section-wrap {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    section { padding: 5rem 0; }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    .section-tag {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: var(--accent-subtle);
+      border: 1px solid rgba(59,130,246,0.2);
+      padding: 3px 10px;
+      border-radius: 4px;
+    }
+    .section-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+    }
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--border-bright), transparent);
+    }
+
+    /* ============================================================
+       HERO SECTION
+    ============================================================ */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: var(--nav-h);
+    }
+    .hero-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 32px;
+      height: 1px;
+      background: var(--accent);
+    }
+    .hero-name {
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+    .hero-name .accent { color: var(--accent-bright); }
+    .hero-title-line {
+      font-family: var(--font-mono);
+      font-size: clamp(0.95rem, 2vw, 1.15rem);
+      color: var(--text-secondary);
+      margin-bottom: 1.8rem;
+      min-height: 1.5em;
+    }
+    .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      background: var(--accent-bright);
+      margin-left: 2px;
+      vertical-align: middle;
+      animation: blink 0.9s step-end infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .hero-bio {
+      max-width: 580px;
+      color: var(--text-secondary);
+      font-size: 1rem;
+      line-height: 1.75;
+      margin-bottom: 2.5rem;
+    }
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 2.5rem;
+    }
+    .badge {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      padding: 4px 12px;
+      border-radius: 4px;
+      border: 1px solid var(--border-bright);
+      color: var(--text-secondary);
+      background: var(--bg-card);
+      letter-spacing: 0.05em;
+    }
+    .badge.green { border-color: rgba(34,197,94,0.35); color: #4ade80; background: rgba(34,197,94,0.07); }
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      padding: 12px 28px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: var(--radius);
+      border: none;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary:hover { background: var(--accent-bright); transform: translateY(-1px); color: #fff; }
+    .btn-secondary {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      padding: 12px 28px;
+      background: transparent;
+      color: var(--accent-bright);
+      border-radius: var(--radius);
+      border: 1px solid var(--border-bright);
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-secondary:hover { border-color: var(--accent); background: var(--accent-subtle); color: #fff; }
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      animation: float 2.5s ease-in-out infinite;
+    }
+    @keyframes float { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+    .scroll-arrow { width:16px; height:16px; border-right:1px solid var(--text-muted); border-bottom:1px solid var(--text-muted); transform:rotate(45deg); }
+
+    /* ============================================================
+       SKILLS BAR CHART
+    ============================================================ */
+    #skills { background: var(--bg-surface); }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    @media (max-width: 640px) { .skills-grid { grid-template-columns: 1fr; } }
+    .skill-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      transition: border-color 0.2s;
+    }
+    .skill-item:hover { border-color: var(--border-bright); }
+    .skill-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.6rem;
+    }
+    .skill-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .skill-years {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--accent);
+    }
+    .skill-bar-track {
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .skill-bar-fill {
+      height: 100%;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--teal));
+      width: 0%;
+      transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .skill-bar-fill.animate { width: var(--target-w); }
+
+    /* ============================================================
+       EXPERIENCE TIMELINE
+    ============================================================ */
+    #experience { }
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 8px;
+      bottom: 8px;
+      width: 1px;
+      background: linear-gradient(180deg, var(--accent), var(--border) 80%, transparent);
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      transform: translateX(-16px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .timeline-item.visible { opacity: 1; transform: translateX(0); }
+    .timeline-dot {
+      position: absolute;
+      left: -2.4rem;
+      top: 6px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--bg-base);
+      box-shadow: 0 0 0 2px var(--accent);
+    }
+    .timeline-dot.current { background: #4ade80; box-shadow: 0 0 0 2px #4ade80, 0 0 12px rgba(74,222,128,0.4); }
+    .timeline-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem 1.75rem;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .timeline-card:hover { border-color: var(--border-bright); background: var(--bg-card-hover); }
+    .timeline-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.3rem;
+    }
+    .timeline-role {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .timeline-dates {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--accent);
+      background: var(--accent-subtle);
+      border: 1px solid rgba(59,130,246,0.2);
+      padding: 3px 10px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .timeline-org {
+      font-size: 0.85rem;
+      color: var(--teal);
+      margin-bottom: 1rem;
+    }
+    .timeline-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+    .timeline-bullets li {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      padding-left: 1.2rem;
+      position: relative;
+      line-height: 1.6;
+    }
+    .timeline-bullets li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 1rem;
+    }
+    .timeline-note {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 4px 10px;
+      display: inline-block;
+      margin-bottom: 0.75rem;
+    }
+
+    /* ============================================================
+       CERTIFICATIONS
+    ============================================================ */
+    #certifications { background: var(--bg-surface); }
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.2rem;
+    }
+    .cert-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.1rem;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+    }
+    .cert-card:hover { border-color: var(--accent); background: var(--bg-card-hover); transform: translateY(-2px); }
+    .cert-logo {
+      width: 52px;
+      height: 52px;
+      object-fit: contain;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 6px rgba(59,130,246,0.2));
+    }
+    .cert-logo-svg {
+      width: 52px;
+      height: 52px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cert-info {}
+    .cert-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+      margin-bottom: 0.25rem;
+    }
+    .cert-issuer {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    /* ============================================================
+       EDUCATION
+    ============================================================ */
+    #education {}
+    .edu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.2rem;
+    }
+    .edu-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem 1.75rem;
+      transition: border-color 0.2s;
+    }
+    .edu-card:hover { border-color: var(--border-bright); }
+    .edu-degree {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.3rem;
+    }
+    .edu-school {
+      font-size: 0.85rem;
+      color: var(--teal);
+      margin-bottom: 0.4rem;
+    }
+    .edu-year {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    /* ============================================================
+       CONTACT
+    ============================================================ */
+    #contact { background: var(--bg-surface); }
+    .contact-inner {
+      text-align: center;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    .contact-heading {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
+    }
+    .contact-sub {
+      color: var(--text-secondary);
+      margin-bottom: 2.5rem;
+      font-size: 0.95rem;
+    }
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 20px;
+      transition: all 0.2s;
+      letter-spacing: 0.03em;
+    }
+    .contact-link:hover { border-color: var(--accent); color: var(--accent-bright); background: var(--accent-subtle); }
+    .contact-link svg { width:16px; height:16px; flex-shrink:0; }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+    }
+
+    /* ============================================================
+       SCROLL REVEAL
+    ============================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ============================================================
+       RESPONSIVE NAV
+    ============================================================ */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      #nav { padding: 0 1.5rem; }
+      .hero-inner { padding: 0 1.5rem; }
+      .section-wrap { padding: 0 1.5rem; }
+      section { padding: 3.5rem 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAV
+  ============================================================ -->
+  <nav id="nav">
+    <div class="nav-brand"><span>~/</span>andrew-holder</div>
+    <ul class="nav-links">
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#certifications">Certs</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="Andrew_Holder_Resume.docx" download class="nav-download">⬇ Resume</a>
+  </nav>
+
+  <!-- ============================================================
+       HERO
+  ============================================================ -->
+  <section id="hero" style="position:relative;">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Available for Remote Opportunities</div>
+      <h1 class="hero-name">Andrew<br><span class="accent">Holder</span></h1>
+      <div class="hero-title-line">
+        <span id="typed-text"></span><span class="cursor"></span>
+      </div>
+      <p class="hero-bio">
+        Endpoint Engineer &amp; Security Analyst with 15+ years securing, deploying, and managing enterprise endpoint environments across law enforcement, hospitality, and manufacturing sectors. I make endpoints run, stay hardened, and stay recoverable.
+      </p>
+      <div class="hero-badges">
+        <span class="badge">CompTIA A+</span>
+        <span class="badge">CompTIA Net+</span>
+        <span class="badge">ITIL Foundation</span>
+        <span class="badge">MCP</span>
+        <span class="badge">Microsoft 365</span>
+        <span class="badge green">● Open to Remote</span>
+      </div>
+      <div class="hero-cta">
+        <a href="Andrew_Holder_Resume.docx" download class="btn-primary">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download Resume
+        </a>
+        <a href="#contact" class="btn-secondary">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+          Get In Touch
+        </a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <span>scroll</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SKILLS BAR CHART
+  ============================================================ -->
+  <section id="skills">
+    <div class="section-wrap">
+      <div class="section-header reveal">
+        <span class="section-tag">02</span>
+        <h2 class="section-title">Skills &amp; Experience</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="skills-grid" id="skills-grid">
+        <!-- JS populated -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       EXPERIENCE TIMELINE
+  ============================================================ -->
+  <section id="experience">
+    <div class="section-wrap">
+      <div class="section-header reveal">
+        <span class="section-tag">03</span>
+        <h2 class="section-title">Experience</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="timeline">
+
+        <!-- PBSO -->
+        <div class="timeline-item">
+          <div class="timeline-dot current"></div>
+          <div class="timeline-card">
+            <div class="timeline-header">
+              <div class="timeline-role">Endpoint Analyst</div>
+              <div class="timeline-dates">Nov 2021 – Present</div>
+            </div>
+            <div class="timeline-org">Palm Beach County Sheriff's Office · West Palm Beach, FL</div>
+            <div class="timeline-note">Joined via INSPYR Solutions (contract) Nov 2021 – Nov 2023; converted to direct hire Nov 2023</div>
+            <ul class="timeline-bullets">
+              <li>Protect and monitor the endpoint fleet for a large law enforcement agency, analyzing telemetry to detect threats and reduce attack surface</li>
+              <li>Lead endpoint incident response: investigate, contain, and remediate security events across managed devices</li>
+              <li>Own the full endpoint software lifecycle — packaging, deployment, patching, and security tooling updates</li>
+              <li>Develop and enforce endpoint security policies; drive cross-team alignment between IT operations and security</li>
+              <li>Research and evaluate EDR, patch management, and endpoint management technologies</li>
+              <li>Produce end-user security awareness training and maintain runbooks for endpoint procedures</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Hollander -->
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="timeline-header">
+              <div class="timeline-role">Desktop Support Analyst</div>
+              <div class="timeline-dates">Aug – Nov 2021</div>
+            </div>
+            <div class="timeline-org">Auxis (Hollander Sleep Products) · Boca Raton, FL</div>
+            <ul class="timeline-bullets">
+              <li>Deployed and configured endpoints using automated imaging and cloud-based MDM tooling</li>
+              <li>Managed user accounts, permissions, and access rights via directory services</li>
+              <li>Maintained hardware/software asset inventory and authored support documentation</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Shoes For Crews -->
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="timeline-header">
+              <div class="timeline-role">Desktop Support Analyst (Tier III Lead)</div>
+              <div class="timeline-dates">Sep 2016 – Aug 2020</div>
+            </div>
+            <div class="timeline-org">Auxis (Shoes For Crews) · West Palm Beach, FL</div>
+            <ul class="timeline-bullets">
+              <li>Led end-to-end deployment, configuration, and lifecycle management of enterprise desktops and servers across multiple sites</li>
+              <li>Implemented OS patch management and automated software distribution via enterprise deployment platforms</li>
+              <li>Administered Windows server infrastructure including Active Directory, file shares, print services, and backup/recovery systems</li>
+              <li>Served as Tier III escalation point; mentored junior technicians and authored internal documentation</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Bluegreen -->
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="timeline-header">
+              <div class="timeline-role">Desktop Administrator / Sr. Desktop Support (Team Lead)</div>
+              <div class="timeline-dates">Jun 2005 – Jul 2016</div>
+            </div>
+            <div class="timeline-org">Bluegreen Vacations · Boca Raton, FL <span style="color:var(--text-muted)">· 11 years</span></div>
+            <ul class="timeline-bullets">
+              <li>Built and managed a centralized endpoint program from the ground up: imaging, software distribution, patch management, and asset tracking for a large hospitality enterprise</li>
+              <li>Administered physical and virtual server infrastructure, directory services, antivirus, and storage systems</li>
+              <li>Designed and launched mobile device management program for iOS and Android fleet</li>
+              <li>Led Tier III escalation team; trained new technicians and drove zero-administration initiatives</li>
+              <li>Collaborated with Sr. Systems Engineer to centralize software distribution and workstation policy management</li>
+            </ul>
+          </div>
+        </div>
+
+      </div><!-- /timeline -->
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CERTIFICATIONS
+  ============================================================ -->
+  <section id="certifications">
+    <div class="section-wrap">
+      <div class="section-header reveal">
+        <span class="section-tag">04</span>
+        <h2 class="section-title">Certifications</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="cert-grid">
+
+        <!-- CompTIA A+ -->
+        <div class="cert-card reveal">
+          <img class="cert-logo" src="https://comptiacdn.azureedge.net/webcontent/images/default-source/credly-badges/comptia-a-ce-certification.png" alt="CompTIA A+" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="cert-logo-svg" style="display:none; background: rgba(246,51,51,0.1); border-radius:8px;">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><text y="22" x="4" font-size="14" font-weight="bold" fill="#f63333" font-family="sans-serif">A+</text></svg>
+          </div>
+          <div class="cert-info">
+            <div class="cert-title">CompTIA A+</div>
+            <div class="cert-issuer">CompTIA · IT Technician</div>
+          </div>
+        </div>
+
+        <!-- CompTIA Network+ -->
+        <div class="cert-card reveal">
+          <img class="cert-logo" src="https://comptiacdn.azureedge.net/webcontent/images/default-source/credly-badges/comptia-network-ce-certification.png" alt="CompTIA Network+" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="cert-logo-svg" style="display:none; background: rgba(246,51,51,0.1); border-radius:8px;">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><text y="22" x="2" font-size="11" font-weight="bold" fill="#f63333" font-family="sans-serif">Net+</text></svg>
+          </div>
+          <div class="cert-info">
+            <div class="cert-title">CompTIA Network+</div>
+            <div class="cert-issuer">CompTIA · IT Operations Specialist</div>
+          </div>
+        </div>
+
+        <!-- ITIL -->
+        <div class="cert-card reveal">
+          <svg class="cert-logo" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="52" height="52" rx="10" fill="#6B21A8" fill-opacity="0.15"/>
+            <rect x="4" y="4" width="44" height="44" rx="8" fill="#7C3AED" fill-opacity="0.2" stroke="#7C3AED" stroke-width="1.5"/>
+            <text x="8" y="32" font-size="13" font-weight="800" fill="#a78bfa" font-family="Arial, sans-serif">ITIL</text>
+            <text x="8" y="43" font-size="7" fill="#7c3aed" font-family="Arial, sans-serif">FOUNDATION</text>
+          </svg>
+          <div class="cert-info">
+            <div class="cert-title">ITIL® Foundation</div>
+            <div class="cert-issuer">AXELOS · IT Service Management</div>
+          </div>
+        </div>
+
+        <!-- Microsoft MCP -->
+        <div class="cert-card reveal">
+          <img class="cert-logo" src="https://learn.microsoft.com/media/learn/certification/badges/microsoft-certified-associate-badge.svg" alt="Microsoft Certified" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="cert-logo-svg" style="display:none; background: rgba(0,120,212,0.1); border-radius:8px;">
+            <svg width="32" height="32" viewBox="0 0 23 23" fill="none"><rect x="1" y="1" width="10" height="10" fill="#F35325"/><rect x="12" y="1" width="10" height="10" fill="#81BC06"/><rect x="1" y="12" width="10" height="10" fill="#05A6F0"/><rect x="12" y="12" width="10" height="10" fill="#FFBA08"/></svg>
+          </div>
+          <div class="cert-info">
+            <div class="cert-title">Microsoft Certified Professional</div>
+            <div class="cert-issuer">Microsoft · MCP</div>
+          </div>
+        </div>
+
+        <!-- Microsoft 365 -->
+        <div class="cert-card reveal">
+          <img class="cert-logo" src="https://learn.microsoft.com/media/learn/certification/badges/microsoft-certified-fundamentals-badge.svg" alt="Microsoft 365 Fundamentals" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="cert-logo-svg" style="display:none; background: rgba(0,120,212,0.1); border-radius:8px;">
+            <svg width="32" height="32" viewBox="0 0 23 23" fill="none"><rect x="1" y="1" width="10" height="10" fill="#F35325"/><rect x="12" y="1" width="10" height="10" fill="#81BC06"/><rect x="1" y="12" width="10" height="10" fill="#05A6F0"/><rect x="12" y="12" width="10" height="10" fill="#FFBA08"/></svg>
+          </div>
+          <div class="cert-info">
+            <div class="cert-title">Microsoft 365 Certified: Fundamentals</div>
+            <div class="cert-issuer">Microsoft · MS-900</div>
+          </div>
+        </div>
+
+        <!-- CIW -->
+        <div class="cert-card reveal">
+          <svg class="cert-logo" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="52" height="52" rx="10" fill="#0369a1" fill-opacity="0.12"/>
+            <rect x="4" y="4" width="44" height="44" rx="8" fill="#0284c7" fill-opacity="0.15" stroke="#0284c7" stroke-width="1.5"/>
+            <text x="10" y="30" font-size="16" font-weight="800" fill="#38bdf8" font-family="Arial, sans-serif">CIW</text>
+            <text x="7" y="42" font-size="6.5" fill="#0284c7" font-family="Arial, sans-serif">WEB SPECIALIST</text>
+          </svg>
+          <div class="cert-info">
+            <div class="cert-title">CIW Web Foundations &amp; JS Specialist</div>
+            <div class="cert-issuer">CIW · Certified Internet Webmaster</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       EDUCATION
+  ============================================================ -->
+  <section id="education">
+    <div class="section-wrap">
+      <div class="section-header reveal">
+        <span class="section-tag">05</span>
+        <h2 class="section-title">Education &amp; Training</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="edu-grid">
+
+        <div class="edu-card reveal">
+          <div class="edu-degree">Network Administration — Information Technology</div>
+          <div class="edu-school">Western Governors University</div>
+          <div class="edu-year">2009 – 2010</div>
+        </div>
+
+        <div class="edu-card reveal">
+          <div class="edu-degree">Microsoft MCITP Server Administration</div>
+          <div class="edu-school">Broward College</div>
+          <div class="edu-year">2005 – 2007</div>
+        </div>
+
+        <div class="edu-card reveal">
+          <div class="edu-degree">CISCO CCNA 1 — Networking Basics</div>
+          <div class="edu-school">Broward College</div>
+          <div class="edu-year">2005 – 2007</div>
+        </div>
+
+        <div class="edu-card reveal">
+          <div class="edu-degree">ITIL® Foundation — IT Service Management</div>
+          <div class="edu-school">Global Knowledge</div>
+          <div class="edu-year">2013</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CONTACT
+  ============================================================ -->
+  <section id="contact">
+    <div class="section-wrap">
+      <div class="contact-inner">
+        <h2 class="contact-heading reveal">Let's Connect</h2>
+        <p class="contact-sub reveal">Open to remote Endpoint Engineer, Desktop Administrator, and IT Security Analyst roles. Reach out via email or LinkedIn.</p>
+        <div class="contact-links reveal">
+          <a href="mailto:andrewjholder@outlook.com" class="contact-link">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+            andrewjholder@outlook.com
+          </a>
+          <a href="https://www.linkedin.com/in/andrewholder" target="_blank" rel="noopener" class="contact-link">
+            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            linkedin.com/in/andrewholder
+          </a>
+          <a href="Andrew_Holder_Resume.docx" download class="contact-link">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download Resume
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer>
+    <span>© 2026 Andrew Holder · Built with HTML/CSS/JS · Hosted on GitHub Pages</span>
+  </footer>
+
+  <!-- ============================================================
+       JAVASCRIPT
+  ============================================================ -->
+  <script>
+    /* ---- SKILLS DATA ------------------------------------------ */
+    const skills = [
+      { name: "Endpoint Security & EDR",        years: 12, max: 20 },
+      { name: "Patch & Vulnerability Management",years: 15, max: 20 },
+      { name: "Windows Desktop Administration",  years: 20, max: 20 },
+      { name: "Active Directory / IAM",          years: 18, max: 20 },
+      { name: "OS Imaging & Deployment (MDT/SCCM/Intune)", years: 14, max: 20 },
+      { name: "MDM — iOS & Android",             years: 10, max: 20 },
+      { name: "Windows Server Administration",   years: 15, max: 20 },
+      { name: "Tier II/III Escalation Support",  years: 20, max: 20 },
+      { name: "Software Packaging & Distribution",years: 15, max: 20 },
+      { name: "Backup & Disaster Recovery",      years: 14, max: 20 },
+      { name: "LAN/WAN Troubleshooting",         years: 18, max: 20 },
+      { name: "Technical Documentation",         years: 18, max: 20 },
+    ];
+
+    const grid = document.getElementById('skills-grid');
+    skills.forEach(s => {
+      const pct = Math.round((s.years / s.max) * 100);
+      const el = document.createElement('div');
+      el.className = 'skill-item reveal';
+      el.innerHTML = `
+        <div class="skill-top">
+          <span class="skill-name">${s.name}</span>
+          <span class="skill-years">${s.years}+ yrs</span>
+        </div>
+        <div class="skill-bar-track">
+          <div class="skill-bar-fill" style="--target-w:${pct}%"></div>
+        </div>`;
+      grid.appendChild(el);
+    });
+
+    /* ---- TYPING EFFECT ---------------------------------------- */
+    const titles = [
+      "Endpoint Engineer",
+      "Desktop Administrator",
+      "Endpoint Security Analyst",
+      "IT Operations Specialist",
+    ];
+    let ti = 0, ci = 0, deleting = false;
+    const el = document.getElementById('typed-text');
+
+    function type() {
+      const current = titles[ti];
+      if (!deleting) {
+        el.textContent = current.slice(0, ++ci);
+        if (ci === current.length) { deleting = true; setTimeout(type, 1800); return; }
+      } else {
+        el.textContent = current.slice(0, --ci);
+        if (ci === 0) { deleting = false; ti = (ti + 1) % titles.length; }
+      }
+      setTimeout(type, deleting ? 40 : 70);
+    }
+    setTimeout(type, 600);
+
+    /* ---- SCROLL REVEAL ---------------------------------------- */
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          /* trigger skill bars */
+          const bar = e.target.querySelector('.skill-bar-fill');
+          if (bar) bar.classList.add('animate');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal, .timeline-item').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
