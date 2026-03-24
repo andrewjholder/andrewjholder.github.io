@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Study Buddy — Study Smarter, Not Harder</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Boogaloo&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --purple: #7C3AED;
+    --purple-light: #EDE9FE;
+    --purple-dark: #5B21B6;
+    --yellow: #FCD34D;
+    --yellow-dark: #F59E0B;
+    --coral: #F97316;
+    --coral-light: #FFF7ED;
+    --teal: #14B8A6;
+    --teal-light: #CCFBF1;
+    --pink: #EC4899;
+    --pink-light: #FDF2F8;
+    --green: #22C55E;
+    --green-light: #DCFCE7;
+    --blue: #3B82F6;
+    --blue-light: #EFF6FF;
+    --bg: #FFFBF0;
+    --text: #1C1917;
+    --muted: #78716C;
+    --card-bg: #FFFFFF;
+    --border: #E7E5E4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    background: white;
+    border-bottom: 2px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    font-family: 'Boogaloo', cursive;
+    font-size: 1.8rem;
+    color: var(--purple);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+  }
+
+  .logo-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--yellow);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    border: 2px solid var(--yellow-dark);
+    transform: rotate(-5deg);
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: var(--muted);
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--purple); }
+
+  .nav-cta {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .btn {
+    padding: 0.55rem 1.3rem;
+    border-radius: 50px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .btn-outline {
+    background: transparent;
+    border-color: var(--purple);
+    color: var(--purple);
+  }
+  .btn-outline:hover { background: var(--purple-light); }
+
+  .btn-primary {
+    background: var(--purple);
+    color: white;
+    border-color: var(--purple-dark);
+    box-shadow: 0 3px 0 var(--purple-dark);
+  }
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 0 var(--purple-dark);
+  }
+  .btn-primary:active {
+    transform: translateY(2px);
+    box-shadow: none;
+  }
+
+  .btn-yellow {
+    background: var(--yellow);
+    color: #78350F;
+    border-color: var(--yellow-dark);
+    box-shadow: 0 4px 0 var(--yellow-dark);
+    font-size: 1.1rem;
+    padding: 0.8rem 2rem;
+  }
+  .btn-yellow:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 var(--yellow-dark);
+  }
+  .btn-yellow:active {
+    transform: translateY(3px);
+    box-shadow: none;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    padding: 5rem 2rem 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; left: 50%;
+    transform: translateX(-50%);
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, #EDE9FE 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--yellow);
+    border: 2px solid var(--yellow-dark);
+    border-radius: 50px;
+    padding: 0.3rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #78350F;
+    margin-bottom: 1.5rem;
+    animation: bounce-in 0.6s ease;
+  }
+
+  @keyframes bounce-in {
+    0% { transform: scale(0.8); opacity: 0; }
+    70% { transform: scale(1.05); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .hero h1 {
+    font-family: 'Boogaloo', cursive;
+    font-size: clamp(2.8rem, 7vw, 5rem);
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    color: var(--text);
+    animation: slide-up 0.7s ease 0.1s both;
+  }
+
+  .hero h1 span.highlight {
+    color: var(--purple);
+    position: relative;
+    display: inline-block;
+  }
+
+  .hero h1 span.highlight::after {
+    content: '';
+    position: absolute;
+    bottom: 2px; left: 0; right: 0;
+    height: 6px;
+    background: var(--yellow);
+    border-radius: 3px;
+    z-index: -1;
+  }
+
+  @keyframes slide-up {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .hero p {
+    font-size: 1.2rem;
+    color: var(--muted);
+    max-width: 560px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.7;
+    font-weight: 600;
+    animation: slide-up 0.7s ease 0.2s both;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: slide-up 0.7s ease 0.3s both;
+  }
+
+  .hero-subtext {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-weight: 600;
+  }
+
+  /* ─── FLOATING CARDS ─── */
+  .floating-cards {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 4rem;
+    flex-wrap: wrap;
+    padding: 0 1rem;
+    animation: slide-up 0.7s ease 0.4s both;
+  }
+
+  .float-card {
+    background: white;
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    padding: 1.5rem;
+    width: 200px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 6px 0 var(--border);
+    transition: transform 0.2s;
+  }
+
+  .float-card:hover { transform: translateY(-4px); }
+
+  .float-card:nth-child(1) { transform: rotate(-3deg); }
+  .float-card:nth-child(1):hover { transform: rotate(-3deg) translateY(-4px); }
+  .float-card:nth-child(2) { transform: rotate(1.5deg); margin-top: -10px; }
+  .float-card:nth-child(2):hover { transform: rotate(1.5deg) translateY(-4px); }
+  .float-card:nth-child(3) { transform: rotate(-2deg); }
+  .float-card:nth-child(3):hover { transform: rotate(-2deg) translateY(-4px); }
+
+  .float-card .card-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem;
+    margin: 0 auto 0.8rem;
+    border: 2px solid transparent;
+  }
+
+  .float-card .card-label {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.3rem;
+  }
+
+  .float-card .card-value {
+    font-family: 'Boogaloo', cursive;
+    font-size: 1.5rem;
+    color: var(--text);
+  }
+
+  .pomodoro-ring {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    border: 5px solid var(--border);
+    border-top-color: var(--coral);
+    border-right-color: var(--coral);
+    margin: 0.2rem auto 0.6rem;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    animation: spin-slow 8s linear infinite;
+  }
+
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .pomodoro-ring span {
+    font-family: 'Boogaloo', cursive;
+    font-size: 1.3rem;
+    color: var(--text);
+    animation: spin-slow 8s linear infinite reverse;
+  }
+
+  /* ─── STATS BAND ─── */
+  .stats-band {
+    background: var(--purple);
+    color: white;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    flex-wrap: wrap;
+    margin: 3rem 0;
+  }
+
+  .stat-item { text-align: center; }
+
+  .stat-number {
+    font-family: 'Boogaloo', cursive;
+    font-size: 2.5rem;
+    color: var(--yellow);
+  }
+
+  .stat-label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    opacity: 0.85;
+    margin-top: 0.2rem;
+  }
+
+  /* ─── FEATURES ─── */
+  .section { padding: 4rem 2rem; max-width: 1100px; margin: 0 auto; }
+  .section-title {
+    font-family: 'Boogaloo', cursive;
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+  .section-sub {
+    text-align: center;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 3rem;
+    font-size: 1rem;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .feature-card {
+    background: white;
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    padding: 1.8rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 0 var(--border);
+  }
+
+  .feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 0 var(--border);
+  }
+
+  .feature-icon {
+    width: 54px; height: 54px;
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    border: 2px solid transparent;
+  }
+
+  .feature-card h3 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+  }
+
+  .feature-card p {
+    font-size: 0.9rem;
+    color: var(--muted);
+    font-weight: 600;
+    line-height: 1.6;
+  }
+
+  .badge {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 0.2rem 0.6rem;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* ─── CARD TYPES ─── */
+  .card-types-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .card-type {
+    border-radius: 16px;
+    padding: 1.4rem;
+    border: 2px solid transparent;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+
+  .card-type:hover { transform: scale(1.02); }
+
+  .card-type-label {
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.6rem;
+    opacity: 0.7;
+  }
+
+  .card-type-q {
+    font-weight: 800;
+    font-size: 0.95rem;
+    margin-bottom: 0.8rem;
+    line-height: 1.4;
+  }
+
+  .card-type-choices { display: flex; flex-direction: column; gap: 0.4rem; }
+
+  .choice-pill {
+    padding: 0.35rem 0.8rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border: 2px solid transparent;
+    display: inline-block;
+    width: fit-content;
+  }
+
+  .tf-row { display: flex; gap: 0.5rem; }
+  .tf-btn {
+    padding: 0.4rem 1.2rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    border: 2px solid transparent;
+    cursor: pointer;
+  }
+
+  .flip-area {
+    perspective: 800px;
+    height: 80px;
+    position: relative;
+  }
+
+  .flip-front, .flip-back {
+    position: absolute; inset: 0;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 0.9rem;
+    backface-visibility: hidden;
+    transition: transform 0.5s;
+    border: 2px solid transparent;
+    padding: 0.5rem;
+    text-align: center;
+  }
+
+  .flip-back { transform: rotateY(180deg); }
+
+  .card-type.flipped .flip-front { transform: rotateY(180deg); }
+  .card-type.flipped .flip-back { transform: rotateY(0deg); }
+
+  /* ─── PRICING ─── */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .pricing-card {
+    background: white;
+    border: 2px solid var(--border);
+    border-radius: 24px;
+    padding: 2rem;
+    position: relative;
+    box-shadow: 0 4px 0 var(--border);
+  }
+
+  .pricing-card.featured {
+    border-color: var(--purple);
+    box-shadow: 0 4px 0 var(--purple-dark);
+    transform: scale(1.03);
+  }
+
+  .popular-badge {
+    position: absolute;
+    top: -14px; left: 50%; transform: translateX(-50%);
+    background: var(--yellow);
+    border: 2px solid var(--yellow-dark);
+    color: #78350F;
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 0.2rem 1rem;
+    border-radius: 50px;
+    white-space: nowrap;
+  }
+
+  .plan-name {
+    font-family: 'Boogaloo', cursive;
+    font-size: 1.6rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .plan-price {
+    font-family: 'Boogaloo', cursive;
+    font-size: 3rem;
+    color: var(--purple);
+    line-height: 1;
+    margin: 0.8rem 0 0.2rem;
+  }
+
+  .plan-price span {
+    font-size: 1.2rem;
+    color: var(--muted);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+  }
+
+  .plan-desc {
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px dashed var(--border);
+  }
+
+  .plan-features { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 1.8rem; }
+  .plan-features li {
+    display: flex; align-items: center; gap: 0.6rem;
+    font-size: 0.9rem; font-weight: 600;
+  }
+
+  .check { color: var(--green); font-size: 1rem; }
+  .cross { color: #D1D5DB; font-size: 1rem; }
+
+  /* ─── CTA SECTION ─── */
+  .cta-section {
+    background: var(--purple);
+    border-radius: 24px;
+    padding: 4rem 2rem;
+    text-align: center;
+    margin: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '📚';
+    position: absolute; top: -20px; left: 5%; font-size: 5rem; opacity: 0.15;
+  }
+  .cta-section::after {
+    content: '✏️';
+    position: absolute; bottom: -10px; right: 5%; font-size: 5rem; opacity: 0.15;
+  }
+
+  .cta-section h2 {
+    font-family: 'Boogaloo', cursive;
+    font-size: 2.5rem;
+    color: white;
+    margin-bottom: 0.8rem;
+  }
+
+  .cta-section p {
+    color: rgba(255,255,255,0.8);
+    font-weight: 600;
+    margin-bottom: 2rem;
+    font-size: 1.05rem;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-top: 2px solid var(--border);
+  }
+
+  /* ─── APP SCREEN MOCKUP ─── */
+  .app-mockup {
+    max-width: 420px;
+    margin: 3rem auto 0;
+    background: white;
+    border: 3px solid var(--border);
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12), 0 8px 0 var(--border);
+  }
+
+  .mockup-topbar {
+    background: var(--purple);
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .mockup-topbar .m-logo {
+    font-family: 'Boogaloo', cursive;
+    color: white;
+    font-size: 1.3rem;
+  }
+
+  .timer-pill {
+    background: rgba(255,255,255,0.2);
+    border: 1.5px solid rgba(255,255,255,0.4);
+    border-radius: 50px;
+    padding: 0.3rem 0.8rem;
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 800;
+    display: flex; align-items: center; gap: 0.4rem;
+  }
+
+  .timer-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--yellow);
+    animation: pulse 1.2s ease infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .mockup-body { padding: 1.2rem 1.5rem; }
+
+  .mockup-deck-label {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.8rem;
+  }
+
+  .mockup-flashcard {
+    background: linear-gradient(135deg, var(--purple-light), #F5F3FF);
+    border: 2px solid #DDD6FE;
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .mockup-flashcard .q-label {
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: var(--purple);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.8rem;
+  }
+
+  .mockup-flashcard .q-text {
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .mockup-progress {
+    height: 8px;
+    background: var(--border);
+    border-radius: 50px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+  }
+
+  .mockup-progress-fill {
+    height: 100%;
+    width: 45%;
+    background: var(--purple);
+    border-radius: 50px;
+    animation: grow 1.5s ease 0.5s both;
+  }
+
+  @keyframes grow {
+    from { width: 0; }
+    to { width: 45%; }
+  }
+
+  .mockup-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.6rem;
+  }
+
+  .m-action-btn {
+    border-radius: 12px;
+    padding: 0.7rem 0.5rem;
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 800;
+    border: 2px solid transparent;
+    cursor: pointer;
+  }
+
+  .m-action-btn.wrong {
+    background: #FEF2F2;
+    border-color: #FECACA;
+    color: #DC2626;
+  }
+
+  .m-action-btn.skip {
+    background: var(--bg);
+    border-color: var(--border);
+    color: var(--muted);
+  }
+
+  .m-action-btn.correct {
+    background: #F0FDF4;
+    border-color: #BBF7D0;
+    color: #16A34A;
+  }
+
+  /* ─── MOBILE ─── */
+  @media (max-width: 600px) {
+    nav { padding: 0.8rem 1rem; }
+    .nav-links { display: none; }
+    .hero { padding: 3rem 1rem 2rem; }
+    .stats-band { gap: 2rem; }
+    .pricing-card.featured { transform: none; }
+    .cta-section { margin: 1rem; padding: 2.5rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-icon">📖</div>
+    My Study Buddy
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#cards">Card Types</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+  </ul>
+  <div class="nav-cta">
+    <a href="#" class="btn btn-outline">Log in</a>
+    <a href="#" class="btn btn-primary">✨ Get started free</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">🎉 100% Free to start — No credit card needed</div>
+  <h1>Study smarter with<br><span class="highlight">My Study Buddy</span></h1>
+  <p>Flashcards, quizzes, and a built-in Pomodoro timer — everything you need to ace your next exam in one place.</p>
+  <div class="hero-cta">
+    <a href="#" class="btn btn-yellow">🚀 Start studying for free</a>
+    <a href="#features" class="btn btn-outline">See how it works</a>
+  </div>
+  <p class="hero-subtext">✓ No signup required to try &nbsp;·&nbsp; ✓ Export your decks &nbsp;·&nbsp; ✓ Works on any device</p>
+
+  <!-- APP MOCKUP -->
+  <div class="app-mockup">
+    <div class="mockup-topbar">
+      <span class="m-logo">📖 My Study Buddy</span>
+      <div class="timer-pill">
+        <div class="timer-dot"></div>
+        23:41
+      </div>
+    </div>
+    <div class="mockup-body">
+      <div class="mockup-deck-label">📂 Biology — Chapter 4 · Card 5 of 12</div>
+      <div class="mockup-progress"><div class="mockup-progress-fill"></div></div>
+      <div class="mockup-flashcard">
+        <div class="q-label">Question</div>
+        <div class="q-text">What is the powerhouse of the cell?</div>
+      </div>
+      <div class="mockup-actions">
+        <div class="m-action-btn wrong">✗ Wrong</div>
+        <div class="m-action-btn skip">↷ Skip</div>
+        <div class="m-action-btn correct">✓ Correct</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-band">
+  <div class="stat-item">
+    <div class="stat-number">50K+</div>
+    <div class="stat-label">Students studying</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">2M+</div>
+    <div class="stat-label">Flashcards created</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">4</div>
+    <div class="stat-label">Question types</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">🍅 ∞</div>
+    <div class="stat-label">Pomodoros logged</div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <h2 class="section-title">Everything you need to study 🎯</h2>
+  <p class="section-sub">Built for students who want results, not distractions.</p>
+  <div class="features-grid">
+
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#EDE9FE; border-color:#DDD6FE;">📇</div>
+      <h3>Smart Flashcards</h3>
+      <p>Create decks with 4 question types — Q&A, True/False, Multiple Choice, and Fill in the Blank.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#FFF7ED; border-color:#FED7AA;">🍅</div>
+      <h3>Pomodoro Timer</h3>
+      <p>Stay focused with built-in Pomodoro sessions. Work 25 minutes, break 5 — fully customizable.</p>
+      <span class="badge" style="background:#FFF7ED; color:#EA580C; border:1.5px solid #FED7AA;">Built in</span>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#DCFCE7; border-color:#BBF7D0;">📤</div>
+      <h3>Export Your Decks</h3>
+      <p>Export any deck as a printable PDF quiz sheet or CSV file to share with classmates.</p>
+      <span class="badge" style="background:#EDE9FE; color:#7C3AED; border:1.5px solid #DDD6FE;">Pro</span>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#EFF6FF; border-color:#BFDBFE;">📊</div>
+      <h3>Study Stats</h3>
+      <p>Track accuracy, streaks, and Pomodoro sessions to see how far you've come.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#FDF2F8; border-color:#FBCFE8;">🔗</div>
+      <h3>Share Decks</h3>
+      <p>Generate a shareable link to any deck — perfect for study groups and classmates.</p>
+      <span class="badge" style="background:#EDE9FE; color:#7C3AED; border:1.5px solid #DDD6FE;">Pro</span>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#CCFBF1; border-color:#99F6E4;">🌙</div>
+      <h3>Dark Mode</h3>
+      <p>Study late into the night without straining your eyes. Automatic system preference detection.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- CARD TYPES -->
+<section class="section" id="cards">
+  <h2 class="section-title">4 ways to quiz yourself 🧠</h2>
+  <p class="section-sub">Different card types for different kinds of knowledge.</p>
+  <div class="card-types-row">
+
+    <!-- Q&A -->
+    <div class="card-type" style="background:#EDE9FE; border-color:#DDD6FE;" onclick="this.classList.toggle('flipped')">
+      <div class="card-type-label" style="color:#7C3AED;">Basic Q&A — Tap to flip</div>
+      <div class="flip-area">
+        <div class="flip-front" style="background:#DDD6FE; border-color:#C4B5FD; color:#5B21B6;">
+          What is the powerhouse of the cell?
+        </div>
+        <div class="flip-back" style="background:#7C3AED; border-color:#6D28D9; color:white;">
+          The Mitochondria ⚡
+        </div>
+      </div>
+    </div>
+
+    <!-- True/False -->
+    <div class="card-type" style="background:#FFF7ED; border-color:#FED7AA;">
+      <div class="card-type-label" style="color:#EA580C;">True / False</div>
+      <div class="card-type-q" style="color:#7C2D12;">The Earth is the 3rd planet from the Sun.</div>
+      <div class="tf-row">
+        <button class="tf-btn" style="background:#DCFCE7; border-color:#86EFAC; color:#16A34A;" onclick="this.style.background='#16A34A'; this.style.color='white'">✓ True</button>
+        <button class="tf-btn" style="background:#FEF2F2; border-color:#FECACA; color:#DC2626;" onclick="this.style.background='#FEF2F2'">✗ False</button>
+      </div>
+    </div>
+
+    <!-- MCQ -->
+    <div class="card-type" style="background:#EFF6FF; border-color:#BFDBFE;">
+      <div class="card-type-label" style="color:#2563EB;">Multiple Choice</div>
+      <div class="card-type-q" style="color:#1E3A8A;">Who wrote Romeo and Juliet?</div>
+      <div class="card-type-choices">
+        <span class="choice-pill" style="background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8;" onclick="this.style.background='#FEF2F2'; this.style.borderColor='#FECACA'; this.style.color='#DC2626'">A. Charles Dickens</span>
+        <span class="choice-pill" style="background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8;" onclick="this.style.background='#DCFCE7'; this.style.borderColor='#86EFAC'; this.style.color='#16A34A'">B. William Shakespeare ✓</span>
+        <span class="choice-pill" style="background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8;">C. Jane Austen</span>
+      </div>
+    </div>
+
+    <!-- Fill in the blank -->
+    <div class="card-type" style="background:#F0FDF4; border-color:#BBF7D0;">
+      <div class="card-type-label" style="color:#16A34A;">Fill in the Blank</div>
+      <div class="card-type-q" style="color:#14532D;">Photosynthesis converts sunlight into ______.</div>
+      <input type="text" placeholder="Type your answer..." style="width:100%; padding:0.5rem 0.8rem; border-radius:10px; border:2px solid #86EFAC; font-family:'Nunito',sans-serif; font-weight:700; font-size:0.85rem; background:white; color:#166534; outline:none;">
+    </div>
+
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="pricing">
+  <h2 class="section-title">Simple, honest pricing 💰</h2>
+  <p class="section-sub">Start free. Upgrade when you're ready.</p>
+  <div class="pricing-grid">
+
+    <!-- FREE -->
+    <div class="pricing-card">
+      <div class="plan-name">🆓 Free</div>
+      <p style="color:var(--muted); font-weight:600; font-size:0.85rem;">Great for getting started</p>
+      <div class="plan-price">$0<span>/mo</span></div>
+      <p class="plan-desc">Forever free. No credit card required.</p>
+      <ul class="plan-features">
+        <li><span class="check">✓</span> Up to 3 decks</li>
+        <li><span class="check">✓</span> 20 cards per deck</li>
+        <li><span class="check">✓</span> Basic Q&A cards only</li>
+        <li><span class="check">✓</span> Pomodoro timer</li>
+        <li><span class="check">✓</span> Basic stats</li>
+        <li><span class="cross">✗</span> PDF/CSV export</li>
+        <li><span class="cross">✗</span> Share deck links</li>
+        <li><span class="cross">✗</span> Study streaks</li>
+      </ul>
+      <a href="#" class="btn btn-outline" style="width:100%; justify-content:center; padding:0.75rem;">Get started free</a>
+    </div>
+
+    <!-- PRO -->
+    <div class="pricing-card featured">
+      <div class="popular-badge">⭐ Most Popular</div>
+      <div class="plan-name" style="color:var(--purple)">⭐ Pro</div>
+      <p style="color:var(--muted); font-weight:600; font-size:0.85rem;">For serious students</p>
+      <div class="plan-price">$4.99<span>/mo</span></div>
+      <p class="plan-desc">Billed monthly. Cancel anytime.</p>
+      <ul class="plan-features">
+        <li><span class="check">✓</span> Unlimited decks</li>
+        <li><span class="check">✓</span> Unlimited cards</li>
+        <li><span class="check">✓</span> All 4 card types</li>
+        <li><span class="check">✓</span> Pomodoro timer</li>
+        <li><span class="check">✓</span> Advanced stats</li>
+        <li><span class="check">✓</span> PDF & CSV export</li>
+        <li><span class="check">✓</span> Share deck links</li>
+        <li><span class="check">✓</span> Study streaks</li>
+      </ul>
+      <a href="#" class="btn btn-primary" style="width:100%; justify-content:center; padding:0.75rem;">Upgrade to Pro</a>
+    </div>
+
+    <!-- TEAMS -->
+    <div class="pricing-card">
+      <div class="plan-name">🏫 Teams</div>
+      <p style="color:var(--muted); font-weight:600; font-size:0.85rem;">For classrooms & groups</p>
+      <div class="plan-price">$12.99<span>/mo</span></div>
+      <p class="plan-desc">Per teacher. Up to 30 students included.</p>
+      <ul class="plan-features">
+        <li><span class="check">✓</span> Everything in Pro</li>
+        <li><span class="check">✓</span> Collaborative decks</li>
+        <li><span class="check">✓</span> Class progress dashboard</li>
+        <li><span class="check">✓</span> Custom branding</li>
+        <li><span class="check">✓</span> Priority support</li>
+        <li><span class="check">✓</span> Student accounts</li>
+        <li><span class="check">✓</span> Bulk deck import</li>
+        <li><span class="check">✓</span> Admin controls</li>
+      </ul>
+      <a href="#" class="btn btn-outline" style="width:100%; justify-content:center; padding:0.75rem;">Contact us</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <h2>Ready to ace your next exam? 🎓</h2>
+  <p>Join thousands of students already studying smarter with My Study Buddy.</p>
+  <a href="#" class="btn btn-yellow">🚀 Start for free — no signup needed</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>Made with ❤️ for students everywhere &nbsp;·&nbsp; © 2026 My Study Buddy &nbsp;·&nbsp; <a href="#" style="color:var(--purple)">Privacy</a> &nbsp;·&nbsp; <a href="#" style="color:var(--purple)">Terms</a></p>
+</footer>
+
+</body>
+</html>
