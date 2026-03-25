@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXPHASE — Social Media Posts</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #1a1a1a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; padding: 32px 20px; }
+
+  .page-title { color: #fff; font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .page-sub { color: #888; font-size: 14px; margin-bottom: 36px; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 32px; }
+
+  .post-wrapper { display: flex; flex-direction: column; gap: 10px; }
+  .post-label { color: #aaa; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+  .post-label span { color: #555; font-weight: 400; margin-left: 6px; }
+
+  /* The graphic itself — square 1:1 */
+  .post-card {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+  }
+
+  /* ── Post 1: Dark blue — "Stop doing it all alone" ── */
+  .p1 { background: #0C447C; }
+  .p1 .accent-bar { position: absolute; top: 0; left: 0; width: 100%; height: 6px; background: #FAC775; }
+  .p1 .eyebrow { position: absolute; top: 30px; left: 36px; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #FAC775; }
+  .p1 .headline { position: absolute; top: 60px; left: 36px; right: 36px; font-size: 38px; font-weight: 800; color: #fff; line-height: 1.1; }
+  .p1 .sub { position: absolute; top: 220px; left: 36px; right: 36px; font-size: 17px; color: #B5D4F4; line-height: 1.55; }
+  .p1 .cta-pill { position: absolute; bottom: 60px; left: 36px; background: #FAC775; color: #0C447C; font-size: 14px; font-weight: 800; padding: 12px 24px; border-radius: 100px; letter-spacing: 0.02em; }
+  .p1 .brand { position: absolute; bottom: 24px; right: 36px; font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.4); letter-spacing: 0.06em; }
+  .p1 .deco-circle { position: absolute; bottom: -60px; right: -60px; width: 220px; height: 220px; border-radius: 50%; border: 40px solid rgba(255,255,255,0.06); }
+  .p1 .deco-circle2 { position: absolute; top: 30px; right: -30px; width: 120px; height: 120px; border-radius: 50%; border: 24px solid rgba(250,199,117,0.12); }
+
+  /* ── Post 2: White/Light — Cost comparison ── */
+  .p2 { background: #F8F7F4; }
+  .p2 .top-bar { position: absolute; top: 0; left: 0; width: 100%; height: 48px; background: #0C447C; display: flex; align-items: center; padding: 0 28px; }
+  .p2 .top-bar-text { color: #FAC775; font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
+  .p2 .headline { position: absolute; top: 68px; left: 28px; right: 28px; font-size: 26px; font-weight: 800; color: #0C447C; line-height: 1.2; }
+  .p2 .vs-row { position: absolute; top: 180px; left: 28px; right: 28px; display: flex; gap: 12px; width: calc(100% - 56px); }
+  .p2 .vs-box { flex: 1; border-radius: 10px; padding: 16px 14px; }
+  .p2 .vs-box.bad { background: #FCEBEB; border: 1.5px solid #F7C1C1; }
+  .p2 .vs-box.good { background: #E1F5EE; border: 1.5px solid #9FE1CB; }
+  .p2 .vs-label { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+  .p2 .vs-box.bad .vs-label { color: #A32D2D; }
+  .p2 .vs-box.good .vs-label { color: #0F6E56; }
+  .p2 .vs-price { font-size: 28px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+  .p2 .vs-box.bad .vs-price { color: #A32D2D; }
+  .p2 .vs-box.good .vs-price { color: #0F6E56; }
+  .p2 .vs-desc { font-size: 11px; color: #888; line-height: 1.4; }
+  .p2 .vs-box.bad .vs-desc { color: #791F1F; }
+  .p2 .vs-box.good .vs-desc { color: #085041; }
+  .p2 .footnote { position: absolute; bottom: 80px; left: 28px; right: 28px; font-size: 15px; font-weight: 700; color: #0C447C; line-height: 1.4; }
+  .p2 .cta { position: absolute; bottom: 28px; left: 28px; font-size: 13px; color: #185FA5; font-weight: 700; }
+  .p2 .brand { position: absolute; bottom: 28px; right: 28px; font-size: 12px; font-weight: 700; color: #bbb; letter-spacing: 0.06em; }
+
+  /* ── Post 3: Dark — 5 signs carousel hook ── */
+  .p3 { background: #1a1038; }
+  .p3 .bg-dots { position: absolute; inset: 0; background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px); background-size: 28px 28px; }
+  .p3 .tag { position: absolute; top: 30px; left: 30px; background: #534AB7; color: #CECBF6; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 14px; border-radius: 100px; }
+  .p3 .num { position: absolute; top: 80px; left: 30px; font-size: 90px; font-weight: 900; color: rgba(255,255,255,0.06); line-height: 1; letter-spacing: -4px; }
+  .p3 .headline { position: absolute; top: 90px; left: 30px; right: 30px; font-size: 32px; font-weight: 800; color: #fff; line-height: 1.15; }
+  .p3 .list { position: absolute; top: 230px; left: 30px; right: 30px; }
+  .p3 .list-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 14px; }
+  .p3 .dot { width: 8px; height: 8px; border-radius: 50%; background: #7F77DD; margin-top: 5px; flex-shrink: 0; }
+  .p3 .list-text { font-size: 14px; color: #CECBF6; line-height: 1.45; }
+  .p3 .cta-row { position: absolute; bottom: 28px; left: 30px; right: 30px; display: flex; justify-content: space-between; align-items: center; }
+  .p3 .cta-text { font-size: 13px; color: #7F77DD; font-weight: 700; }
+  .p3 .brand { font-size: 12px; color: rgba(255,255,255,0.3); font-weight: 700; letter-spacing: 0.06em; }
+
+  /* ── Post 4: Amber/warm — bookkeeping pain ── */
+  .p4 { background: #FAC775; }
+  .p4 .deco-rect { position: absolute; bottom: -30px; right: -30px; width: 200px; height: 200px; background: #EF9F27; border-radius: 32px; transform: rotate(20deg); }
+  .p4 .deco-rect2 { position: absolute; top: -20px; left: -20px; width: 100px; height: 100px; background: #EF9F27; border-radius: 18px; transform: rotate(-12deg); }
+  .p4 .eyebrow { position: absolute; top: 32px; left: 32px; font-size: 11px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #633806; }
+  .p4 .headline { position: absolute; top: 58px; left: 32px; right: 32px; font-size: 34px; font-weight: 900; color: #412402; line-height: 1.1; }
+  .p4 .body { position: absolute; top: 240px; left: 32px; right: 32px; font-size: 16px; color: #633806; line-height: 1.6; }
+  .p4 .pill { position: absolute; bottom: 64px; left: 32px; background: #0C447C; color: #FAC775; font-size: 14px; font-weight: 800; padding: 12px 22px; border-radius: 100px; }
+  .p4 .brand { position: absolute; bottom: 28px; left: 32px; font-size: 12px; font-weight: 700; color: rgba(65,36,2,0.5); letter-spacing: 0.06em; }
+
+  /* ── Post 5: Teal — educational "how it works" ── */
+  .p5 { background: #085041; }
+  .p5 .top-accent { position: absolute; top: 0; right: 0; width: 120px; height: 120px; background: #0F6E56; border-radius: 0 0 0 120px; }
+  .p5 .eyebrow { position: absolute; top: 28px; left: 28px; font-size: 11px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #5DCAA5; }
+  .p5 .headline { position: absolute; top: 55px; left: 28px; right: 28px; font-size: 30px; font-weight: 800; color: #fff; line-height: 1.2; }
+  .p5 .steps { position: absolute; top: 185px; left: 28px; right: 28px; }
+  .p5 .step { display: flex; gap: 14px; margin-bottom: 20px; align-items: flex-start; }
+  .p5 .step-num { width: 30px; height: 30px; border-radius: 50%; background: #5DCAA5; color: #085041; font-size: 14px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .p5 .step-text strong { display: block; font-size: 14px; color: #fff; font-weight: 700; margin-bottom: 2px; }
+  .p5 .step-text span { font-size: 12px; color: #9FE1CB; line-height: 1.4; }
+  .p5 .cta { position: absolute; bottom: 28px; left: 28px; right: 28px; background: #5DCAA5; color: #04342C; font-size: 14px; font-weight: 800; padding: 14px; border-radius: 10px; text-align: center; }
+  .p5 .brand { position: absolute; top: 38px; right: 28px; font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.35); letter-spacing: 0.06em; }
+
+  /* ── Post 6: White — quote/testimonial style ── */
+  .p6 { background: #fff; border: 1px solid #e0e0e0; }
+  .p6 .left-bar { position: absolute; top: 0; left: 0; width: 8px; height: 100%; background: #0C447C; }
+  .p6 .quote-mark { position: absolute; top: 32px; left: 36px; font-size: 100px; color: #E6F1FB; font-family: Georgia, serif; line-height: 1; font-weight: 700; }
+  .p6 .quote-text { position: absolute; top: 80px; left: 36px; right: 36px; font-size: 24px; font-weight: 700; color: #0C447C; line-height: 1.35; font-style: italic; }
+  .p6 .divider { position: absolute; top: 310px; left: 36px; width: 48px; height: 3px; background: #FAC775; border-radius: 2px; }
+  .p6 .attribution { position: absolute; top: 330px; left: 36px; font-size: 15px; font-weight: 700; color: #2C2C2A; }
+  .p6 .attr-sub { position: absolute; top: 352px; left: 36px; font-size: 13px; color: #888; }
+  .p6 .cta-box { position: absolute; bottom: 32px; left: 36px; right: 36px; background: #0C447C; border-radius: 10px; padding: 16px 20px; }
+  .p6 .cta-box-text { font-size: 14px; color: #fff; font-weight: 600; }
+  .p6 .cta-box-link { font-size: 13px; color: #FAC775; font-weight: 700; margin-top: 2px; }
+
+  /* ── Post 7: Split — VA promo ── */
+  .p7 { background: #fff; }
+  .p7 .left-half { position: absolute; top: 0; left: 0; width: 52%; height: 100%; background: #0C447C; }
+  .p7 .left-deco { position: absolute; top: 0; left: 0; width: 52%; height: 100%; }
+  .p7 .left-deco-circle { position: absolute; bottom: -40px; left: -40px; width: 180px; height: 180px; border-radius: 50%; border: 30px solid rgba(255,255,255,0.08); }
+  .p7 .left-deco-circle2 { position: absolute; top: 40px; left: 60px; width: 80px; height: 80px; border-radius: 50%; border: 18px solid rgba(250,199,117,0.2); }
+  .p7 .left-tag { position: absolute; top: 32px; left: 28px; background: #FAC775; color: #0C447C; font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; border-radius: 100px; }
+  .p7 .left-price { position: absolute; top: 80px; left: 28px; }
+  .p7 .price-from { font-size: 13px; color: rgba(255,255,255,0.6); font-weight: 600; display: block; }
+  .p7 .price-num { font-size: 60px; font-weight: 900; color: #fff; line-height: 1; }
+  .p7 .price-mo { font-size: 18px; color: rgba(255,255,255,0.7); font-weight: 600; }
+  .p7 .left-service { position: absolute; top: 200px; left: 28px; right: 10px; }
+  .p7 .left-service strong { display: block; font-size: 16px; color: #fff; font-weight: 800; margin-bottom: 6px; }
+  .p7 .left-service span { font-size: 13px; color: #B5D4F4; line-height: 1.5; }
+  .p7 .left-includes { position: absolute; bottom: 32px; left: 28px; }
+  .p7 .inc-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .p7 .inc-check { width: 16px; height: 16px; border-radius: 50%; background: #5DCAA5; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .p7 .inc-check svg { display: block; }
+  .p7 .inc-text { font-size: 12px; color: #9FE1CB; font-weight: 600; }
+  .p7 .right-half { position: absolute; top: 0; right: 0; width: 48%; height: 100%; display: flex; flex-direction: column; justify-content: center; padding: 28px 24px 28px 20px; }
+  .p7 .right-headline { font-size: 22px; font-weight: 800; color: #0C447C; line-height: 1.2; margin-bottom: 14px; }
+  .p7 .right-body { font-size: 13px; color: #5F5E5A; line-height: 1.6; margin-bottom: 20px; }
+  .p7 .right-cta { background: #0C447C; color: #FAC775; font-size: 13px; font-weight: 800; padding: 12px 16px; border-radius: 8px; text-align: center; display: block; letter-spacing: 0.02em; }
+  .p7 .right-sub { font-size: 11px; color: #aaa; text-align: center; margin-top: 8px; }
+  .p7 .brand { position: absolute; bottom: 12px; right: 20px; font-size: 11px; font-weight: 700; color: #ccc; letter-spacing: 0.06em; }
+
+  .download-note { margin-top: 40px; background: #2a2a2a; border-radius: 10px; padding: 20px 24px; color: #aaa; font-size: 13px; line-height: 1.7; }
+  .download-note strong { color: #fff; }
+</style>
+</head>
+<body>
+
+<p class="page-title">NEXPHASE — Social Media Graphics</p>
+<p class="page-sub">7 ready-to-use posts · Right-click any graphic to save as image · Or use browser Print → Save as PDF</p>
+
+<div class="grid">
+
+  <!-- POST 1: Brand awareness / hook -->
+  <div class="post-wrapper">
+    <div class="post-label">Post 1 — Brand Awareness <span>Instagram · LinkedIn · Facebook</span></div>
+    <div class="post-card p1">
+      <div class="p1 deco-circle"></div>
+      <div class="p1 deco-circle2"></div>
+      <div class="p1 accent-bar"></div>
+      <div class="p1 eyebrow">For solopreneurs &amp; small businesses</div>
+      <div class="p1 headline">Stop doing<br>everything<br>yourself.</div>
+      <div class="p1 sub">Delegate your bookkeeping,<br>admin &amp; IT to a team that<br>handles it all — affordably.</div>
+      <div class="p1 cta-pill">Book a free 15-min call</div>
+      <div class="p1 brand">NEXPHASE SBS · thenexphase.com</div>
+    </div>
+    <div class="post-label" style="color:#555; text-transform:none; font-size:12px; letter-spacing:0;">Caption: You didn't start your business to spend Sunday nights catching up on invoices. NEXPHASE handles the back office — bookkeeping, admin, IT — so you can focus on growth. Link in bio to book your free call. #SmallBusiness #Solopreneur #VirtualAssistant #Delegate</div>
+  </div>
+
+  <!-- POST 2: Cost comparison -->
+  <div class="post-wrapper">
+    <div class="post-label">Post 2 — Educational / Value <span>LinkedIn · Facebook</span></div>
+    <div class="post-card p2">
+      <div class="p2 top-bar"><span class="p2 top-bar-text">The real cost comparison</span></div>
+      <div class="p2 headline">Why outsource instead<br>of hiring in-house?</div>
+      <div class="p2 vs-row" style="position:absolute; top:165px; left:28px; right:28px; display:flex; gap:10px;">
+        <div class="p2 vs-box bad" style="flex:1; border-radius:10px; padding:14px 12px;">
+          <div class="p2 vs-label">Part-time employee</div>
+          <div class="p2 vs-price">$2,400<span style="font-size:14px;font-weight:600;">/mo</span></div>
+          <div class="p2 vs-desc">+ taxes, benefits,<br>training &amp; HR overhead</div>
+        </div>
+        <div class="p2 vs-box good" style="flex:1; border-radius:10px; padding:14px 12px;">
+          <div class="p2 vs-label">NEXPHASE VA</div>
+          <div class="p2 vs-price">$1,320<span style="font-size:14px;font-weight:600;">/mo</span></div>
+          <div class="p2 vs-desc">40 hrs · US-based ·<br>no overhead, no HR</div>
+        </div>
+      </div>
+      <div class="p2 footnote" style="top:360px;">Same support. No payroll taxes.<br>No benefits. No hiring drama.</div>
+      <div class="p2 cta" style="bottom:38px;">Book a free consultation → thenexphase.com</div>
+      <div class="p2 brand">NEXPHASE SBS</div>
+    </div>
+    <div class="post-label" style="color:#555; text-transform:none; font-size:12px; letter-spacing:0;">Caption: Thinking about hiring help? Before you post that job listing, run the numbers. A part-time employee costs $2,000–$3,000/month before taxes and benefits. Our 40-hr/month VA package starts at $1,320 — with zero overhead. 🧵 #SmallBusinessTips #OutsourceToGrow #VirtualAssistant</div>
+  </div>
+
+  <!-- POST 3: Carousel hook — 5 signs -->
+  <div class="post-wrapper">
+    <div class="post-label">Post 3 — Carousel Hook <span>Instagram · LinkedIn</span></div>
+    <div class="post-card p3">
+      <div class="p3 bg-dots"></div>
+      <div class="p3 tag">Save this post</div>
+      <div class="p3 num">5</div>
+      <div class="p3 headline">Signs you need<br>to delegate<br>right now</div>
+      <div class="p3 list">
+        <div class="p3 list-item"><div class="p3 dot"></div><div class="p3 list-text">You're answering emails at 10pm</div></div>
+        <div class="p3 list-item"><div class="p3 dot"></div><div class="p3 list-text">Tax time fills you with dread</div></div>
+        <div class="p3 list-item"><div class="p3 dot"></div><div class="p3 list-text">You've missed a client follow-up</div></div>
+        <div class="p3 list-item"><div class="p3 dot"></div><div class="p3 list-text">Your books are weeks behind</div></div>
+        <div class="p3 list-item"><div class="p3 dot"></div><div class="p3 list-text">Tech issues eat your mornings</div></div>
+      </div>
+      <div class="p3 cta-row">
+        <div class="p3 cta-text">We fix all 5 → thenexphase.com</div>
+        <div class="p3 brand">NEXPHASE SBS</div>
+      </div>
+    </div>
+    <div class="post-label" style="color:#555; text-transform:none; font-size:12px; letter-spacing:0;">Caption: If any of these hit home, it's time to get help. Swipe through for what to do about each one. Or skip straight to booking a free 15-min call with our team — link in bio. #Burnout #SmallBusinessOwner #Productivity #WorkLifeBalance</div>
+  </div>
+
+  <!-- POST 4: Bookkeeping pain point -->
+  <div class="post-wrapper">
+    <div class="post-label">Post 4 — Pain Point / Bookkeeping <span>Facebook · Instagram</span></div>
+    <div class="post-card p4">
+      <div class="p4 deco-rect"></div>
+      <div class="p4 deco-rect2"></div>
+      <div class="p4 eyebrow">Bookkeeping reality check</div>
+      <div class="p4 headline">Are your<br>books a mess<br>at tax time?</div>
+      <div class="p4 body">Most small business owners<br>lose $2,000–$5,000 in missed<br>deductions every year because<br>their books aren't organized.<br><br>We fix that — starting at<br>just $150/month.</div>
+      <div class="p4 pill">Get tax-ready → Free consult</div>
+      <div class="p4 brand">NEXPHASE SBS · QuickBooks Pro Advisors</div>
+    </div>
+    <div class="post-label" style="color:#555; text-transform:none; font-size:12px; letter-spacing:0;">Caption: Raise your hand if tax season stresses you out. 🙋 You're not alone — and it's not your fault. Most small business owners aren't accountants. That's literally what we're here for. QuickBooks Pro Advisors, starting at $150/mo. Link in bio. #Bookkeeping #TaxSeason #SmallBusiness #QuickBooks</div>
+  </div>
+
+  <!-- POST 5: Educational — How it works -->
+  <div class="post-wrapper">
+    <div class="post-label">Post 5 — Educational / Trust <span>Instagram · LinkedIn</span></div>
+    <div class="post-card p5">
+      <div class="p5 top-accent"></div>
+      <div class="p5 brand">NEXPHASE SBS</div>
+      <div class="p5 eyebrow">How it works</div>
+      <div class="p5 headline">Get started with<br>NEXPHASE in<br>3 simple steps</div>
+      <div class="p5 steps">
+        <div class="p5 step">
+          <div class="p5 step-num">1</div>
+          <div class="p5 step-text">
+            <strong>Book a free 15-min call</strong>
+            <span>We learn your business and what you need help with most.</span>
+          </div>
+        </div>
+        <div class="p5 step">
+          <div class="p5 step-num">2</div>
+          <div class="p5 step-text">
+            <strong>We match you to a package</strong>
+            <span>VA, bookkeeping, IT — or all three. Custom to your budget.</span>
+          </div>
+        </div>
+        <div class="p5 step">
+          <div class="p5 step-num">3</div>
+          <div class="p5 step-text">
+            <strong>We get to work in 1 business day</strong>
+            <span>Onboarding is fast. Relief is immediate.</span>
+          </div>
+        </div>
+      </div>
+      <div class="p5 cta">Book your free call → thenexphase.com</div>
+    </div>
+    <div class="post-label" style="color:#555; text-transform:none; font-size:12px; letter-spacing:0;">Caption: Getting started is easier than you think. No long contracts. No complicated setup. Just a quick call, a matched package, and a team ready to take things off your plate — usually within 24 hours. Questions? Drop them below. #SmallBusiness #BackOfficeSupport #VirtualTeam</div>
+  </div>
+
+  <!-- POST 6: Testimonial/quote style -->
+  <div class="post-wrapper">
+    <div class="post-label">Post 6 — Social Proof / Quote <span>All Platforms</span></div>
+    <div class="post-card p6">
+      <div class="p6 left-bar"></div>
+      <div class="p6 quote-mark">"</div>
+      <div class="p6 quote-text">I was spending 10 hours a month on books I didn't understand. Now I get a clean report every month and I actually know where my money is going.</div>
+      <div class="p6 divider"></div>
+      <div class="p6 attribution">Sarah M.</div>
+      <div class="p6 attr-sub">Salon owner · NEXPHASE Bookkeeping client</div>
+      <div class="p6 cta-box">
+        <div class="p6 cta-box-text">Ready for books that make sense?</div>
+        <div class="p6 cta-box-link">Book a free 15-min call → thenexphase.com</div>
+      </div>
+    </div>
+    <div class="post-label" style="color:#555; text-transform:none; font-size:12px; letter-spacing:0;">Caption: This is the kind of message that makes our week. 💙 When a business owner goes from dreading their finances to actually understanding them — that's the goal. If your books are stressing you out, let's talk. Link in bio for a free consult. #Bookkeeping #ClientWin #SmallBusiness #Outsource</div>
+  </div>
+
+  <!-- POST 7: VA promo / split layout -->
+  <div class="post-wrapper">
+    <div class="post-label">Post 7 — Promotional / VA Offer <span>Instagram · Facebook</span></div>
+    <div class="post-card p7">
+      <div class="p7 left-half"></div>
+      <div class="p7 left-deco">
+        <div class="p7 left-deco-circle"></div>
+        <div class="p7 left-deco-circle2"></div>
+      </div>
+      <div class="p7 left-tag">Virtual Assistant</div>
+      <div class="p7 left-price">
+        <span class="p7 price-from">Starting from</span>
+        <span class="p7 price-num">$40</span>
+        <span class="p7 price-mo">/hr</span>
+      </div>
+      <div class="p7 left-service">
+        <strong>US-Based · Remote · Expert</strong>
+        <span>Admin, social media,<br>e-commerce, real estate<br>support &amp; more</span>
+      </div>
+      <div class="p7 left-includes">
+        <div class="p7 inc-row">
+          <div class="p7 inc-check"><svg width="10" height="8" viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1" fill="none" stroke="#04342C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span class="p7 inc-text">24-hr response time</span>
+        </div>
+        <div class="p7 inc-row">
+          <div class="p7 inc-check"><svg width="10" height="8" viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1" fill="none" stroke="#04342C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span class="p7 inc-text">Dedicated assistant</span>
+        </div>
+        <div class="p7 inc-row">
+          <div class="p7 inc-check"><svg width="10" height="8" viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1" fill="none" stroke="#04342C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span class="p7 inc-text">Cancel anytime</span>
+        </div>
+      </div>
+      <div class="p7 right-half">
+        <div class="p7 right-headline">Your inbox won't manage itself.</div>
+        <div class="p7 right-body">Get a dedicated virtual assistant without the cost of a full-time hire. Flexible hours, expert support, zero overhead.</div>
+        <div class="p7 right-cta">Book a free consult</div>
+        <div class="p7 right-sub">thenexphase.com · No commitment</div>
+      </div>
+      <div class="p7 brand">NEXPHASE SBS</div>
+    </div>
+    <div class="post-label" style="color:#555; text-transform:none; font-size:12px; letter-spacing:0;">Caption: What if you could have a dedicated assistant — without the payroll, the benefits, or the office space? Our virtual assistants start at just $40/hr and handle everything from your inbox to your social media. Free 15-min consultation to find the right fit. Link in bio. #VirtualAssistant #SmallBusiness #Solopreneur #Delegate #WorkSmarter</div>
+  </div>
+
+</div>
+
+<div class="download-note">
+  <strong>How to save these graphics:</strong> Right-click any graphic and select "Save image as" (Chrome/Edge) — or use browser Print → "Save as PDF" to get all 7 at once. Each is designed at 1:1 ratio, ideal for Instagram, LinkedIn, and Facebook. The caption copy beneath each post is ready to paste directly.
+</div>
+
+</body>
+</html>
