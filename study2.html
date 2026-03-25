@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Study Buddy — Test Bank</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Boogaloo&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --purple:#7C3AED; --purple-light:#EDE9FE; --purple-dark:#5B21B6;
+  --yellow:#FCD34D; --yellow-dark:#F59E0B;
+  --coral:#F97316; --coral-light:#FFF7ED;
+  --teal:#14B8A6; --teal-light:#CCFBF1;
+  --pink:#EC4899; --pink-light:#FDF2F8;
+  --green:#22C55E; --green-light:#DCFCE7;
+  --blue:#3B82F6; --blue-light:#EFF6FF;
+  --red:#EF4444; --red-light:#FEF2F2;
+  --bg:#FFFBF0; --card:#FFFFFF;
+  --text:#1C1917; --muted:#78716C; --border:#E7E5E4;
+  --sidebar-w:260px;
+}
+
+body { font-family:'Nunito',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; display:flex; flex-direction:column; }
+
+/* ── TIER CONFIG (change 'free' to 'pro' or 'teams' to unlock) ── */
+/* Controlled via JS */
+
+/* ── TOP BAR ── */
+.topbar {
+  background:var(--purple); color:white;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0.7rem 1.5rem; position:sticky; top:0; z-index:200;
+  box-shadow:0 2px 0 var(--purple-dark);
+}
+.topbar-logo { font-family:'Boogaloo',cursive; font-size:1.5rem; display:flex; align-items:center; gap:0.5rem; }
+.topbar-logo span { background:var(--yellow); color:#78350F; border-radius:8px; padding:2px 8px; font-size:1rem; border:2px solid var(--yellow-dark); }
+.topbar-right { display:flex; align-items:center; gap:1rem; }
+.tier-badge { background:rgba(255,255,255,0.15); border:1.5px solid rgba(255,255,255,0.3); border-radius:50px; padding:0.3rem 0.9rem; font-size:0.8rem; font-weight:800; cursor:pointer; transition:background 0.2s; }
+.tier-badge:hover { background:rgba(255,255,255,0.25); }
+.tier-badge.pro { background:var(--yellow); color:#78350F; border-color:var(--yellow-dark); }
+.avatar { width:34px; height:34px; border-radius:50%; background:var(--yellow); color:#78350F; font-weight:800; font-size:0.85rem; display:flex; align-items:center; justify-content:center; border:2px solid var(--yellow-dark); }
+
+/* ── LAYOUT ── */
+.app-body { display:flex; flex:1; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width:var(--sidebar-w); background:white; border-right:2px solid var(--border);
+  display:flex; flex-direction:column; padding:1.2rem 0; position:sticky; top:52px; height:calc(100vh - 52px); overflow-y:auto;
+}
+.sidebar-section { padding:0 1rem; margin-bottom:1.5rem; }
+.sidebar-label { font-size:0.7rem; font-weight:800; color:var(--muted); text-transform:uppercase; letter-spacing:0.07em; margin-bottom:0.6rem; padding:0 0.5rem; }
+.sidebar-item {
+  display:flex; align-items:center; gap:0.7rem; padding:0.6rem 0.8rem; border-radius:12px;
+  cursor:pointer; font-weight:700; font-size:0.9rem; color:var(--muted); transition:all 0.15s; margin-bottom:2px;
+}
+.sidebar-item:hover { background:var(--purple-light); color:var(--purple); }
+.sidebar-item.active { background:var(--purple-light); color:var(--purple); }
+.sidebar-item .si-icon { width:28px; height:28px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:0.95rem; flex-shrink:0; }
+.sidebar-item .si-count { margin-left:auto; background:var(--border); color:var(--muted); font-size:0.7rem; font-weight:800; padding:2px 7px; border-radius:50px; }
+.sidebar-item.active .si-count { background:var(--purple); color:white; }
+
+.sidebar-divider { height:1px; background:var(--border); margin:0.5rem 1rem 1rem; }
+
+.upgrade-box {
+  margin:0 1rem; background:var(--purple-light); border:2px solid #DDD6FE; border-radius:16px;
+  padding:1rem; text-align:center;
+}
+.upgrade-box h4 { font-size:0.9rem; font-weight:800; color:var(--purple); margin-bottom:0.3rem; }
+.upgrade-box p { font-size:0.75rem; color:var(--muted); font-weight:600; margin-bottom:0.8rem; line-height:1.4; }
+.btn-upgrade { background:var(--purple); color:white; border:none; border-radius:50px; padding:0.5rem 1rem; font-family:'Nunito',sans-serif; font-weight:800; font-size:0.8rem; cursor:pointer; width:100%; transition:opacity 0.2s; box-shadow:0 3px 0 var(--purple-dark); }
+.btn-upgrade:hover { opacity:0.9; }
+
+/* ── MAIN ── */
+.main { flex:1; padding:2rem; overflow-y:auto; }
+
+/* ── VIEWS (show/hide) ── */
+.view { display:none; }
+.view.active { display:block; }
+
+/* ── PAGE HEADER ── */
+.page-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.8rem; flex-wrap:wrap; gap:1rem; }
+.page-title { font-family:'Boogaloo',cursive; font-size:2rem; }
+.page-title span { color:var(--purple); }
+
+/* ── BUTTONS ── */
+.btn { display:inline-flex; align-items:center; gap:0.4rem; padding:0.55rem 1.2rem; border-radius:50px; font-family:'Nunito',sans-serif; font-weight:800; font-size:0.88rem; cursor:pointer; border:2px solid transparent; transition:all 0.2s; text-decoration:none; }
+.btn-primary { background:var(--purple); color:white; border-color:var(--purple-dark); box-shadow:0 3px 0 var(--purple-dark); }
+.btn-primary:hover { transform:translateY(-1px); box-shadow:0 4px 0 var(--purple-dark); }
+.btn-primary:active { transform:translateY(2px); box-shadow:none; }
+.btn-ghost { background:transparent; color:var(--muted); border-color:var(--border); }
+.btn-ghost:hover { background:var(--bg); color:var(--text); }
+.btn-danger { background:var(--red-light); color:var(--red); border-color:#FECACA; }
+.btn-danger:hover { background:#FEE2E2; }
+.btn-yellow { background:var(--yellow); color:#78350F; border-color:var(--yellow-dark); box-shadow:0 3px 0 var(--yellow-dark); }
+.btn-yellow:hover { transform:translateY(-1px); }
+.btn-sm { padding:0.35rem 0.8rem; font-size:0.8rem; }
+
+/* ── LIMIT BAR ── */
+.limit-bar-wrap { background:white; border:2px solid var(--border); border-radius:16px; padding:1rem 1.3rem; margin-bottom:1.5rem; display:flex; align-items:center; gap:1.2rem; flex-wrap:wrap; }
+.limit-item { flex:1; min-width:140px; }
+.limit-label { font-size:0.75rem; font-weight:800; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.4rem; display:flex; justify-content:space-between; }
+.limit-label span { color:var(--text); }
+.limit-track { height:8px; background:var(--border); border-radius:50px; overflow:hidden; }
+.limit-fill { height:100%; border-radius:50px; transition:width 0.4s ease; }
+.limit-fill.ok { background:var(--green); }
+.limit-fill.warn { background:var(--yellow-dark); }
+.limit-fill.full { background:var(--red); }
+.limit-pro-note { font-size:0.75rem; color:var(--purple); font-weight:700; cursor:pointer; white-space:nowrap; }
+.limit-pro-note:hover { text-decoration:underline; }
+
+/* ── DECK GRID ── */
+.deck-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.2rem; }
+
+.deck-card {
+  background:white; border:2px solid var(--border); border-radius:20px; padding:1.4rem;
+  cursor:pointer; transition:all 0.2s; position:relative; overflow:hidden;
+  box-shadow:0 4px 0 var(--border);
+}
+.deck-card:hover { transform:translateY(-3px); box-shadow:0 7px 0 var(--border); }
+.deck-card-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:0.8rem; }
+.deck-icon { width:48px; height:48px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:1.5rem; border:2px solid transparent; flex-shrink:0; }
+.deck-menu-btn { background:none; border:none; color:var(--muted); font-size:1.2rem; cursor:pointer; padding:4px; border-radius:8px; }
+.deck-menu-btn:hover { background:var(--bg); }
+.deck-name { font-weight:800; font-size:1rem; margin-bottom:0.3rem; line-height:1.3; }
+.deck-meta { font-size:0.8rem; color:var(--muted); font-weight:600; margin-bottom:1rem; }
+.deck-progress-label { display:flex; justify-content:space-between; font-size:0.72rem; font-weight:800; color:var(--muted); margin-bottom:0.3rem; }
+.deck-progress-track { height:6px; background:var(--border); border-radius:50px; overflow:hidden; margin-bottom:0.8rem; }
+.deck-progress-fill { height:100%; background:var(--purple); border-radius:50px; }
+.deck-footer { display:flex; gap:0.5rem; }
+.deck-tag { font-size:0.7rem; font-weight:800; padding:3px 10px; border-radius:50px; border:1.5px solid transparent; }
+
+.add-deck-card {
+  background:transparent; border:2px dashed var(--border); border-radius:20px; padding:1.4rem;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.6rem;
+  cursor:pointer; transition:all 0.2s; min-height:180px; color:var(--muted);
+}
+.add-deck-card:hover { border-color:var(--purple); color:var(--purple); background:var(--purple-light); }
+.add-deck-icon { width:52px; height:52px; border-radius:50%; background:var(--border); display:flex; align-items:center; justify-content:center; font-size:1.4rem; transition:background 0.2s; }
+.add-deck-card:hover .add-deck-icon { background:var(--purple); color:white; }
+.add-deck-card span { font-weight:800; font-size:0.9rem; }
+
+/* ── MODAL OVERLAY ── */
+.modal-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:1000;
+  display:flex; align-items:center; justify-content:center; padding:1rem;
+  opacity:0; pointer-events:none; transition:opacity 0.2s;
+}
+.modal-overlay.open { opacity:1; pointer-events:all; }
+.modal {
+  background:white; border-radius:24px; padding:2rem; width:100%; max-width:560px;
+  max-height:90vh; overflow-y:auto;
+  transform:scale(0.95) translateY(10px); transition:transform 0.2s;
+  border:2px solid var(--border); box-shadow:0 20px 40px rgba(0,0,0,0.15);
+}
+.modal-overlay.open .modal { transform:scale(1) translateY(0); }
+.modal-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem; }
+.modal-title { font-family:'Boogaloo',cursive; font-size:1.6rem; }
+.modal-close { background:var(--bg); border:2px solid var(--border); width:34px; height:34px; border-radius:50%; cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center; transition:background 0.15s; }
+.modal-close:hover { background:var(--border); }
+
+/* ── FORM ELEMENTS ── */
+.form-group { margin-bottom:1.2rem; }
+.form-label { font-size:0.82rem; font-weight:800; color:var(--text); margin-bottom:0.4rem; display:block; }
+.form-label span { color:var(--muted); font-weight:600; }
+.form-input, .form-select, .form-textarea {
+  width:100%; padding:0.65rem 0.9rem; border:2px solid var(--border); border-radius:12px;
+  font-family:'Nunito',sans-serif; font-size:0.9rem; font-weight:600; color:var(--text);
+  background:white; outline:none; transition:border-color 0.2s;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color:var(--purple); }
+.form-textarea { resize:vertical; min-height:80px; }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; }
+.form-hint { font-size:0.75rem; color:var(--muted); font-weight:600; margin-top:0.3rem; }
+.form-error { font-size:0.75rem; color:var(--red); font-weight:700; margin-top:0.3rem; display:none; }
+.form-error.show { display:block; }
+
+.color-picker { display:flex; gap:0.6rem; flex-wrap:wrap; }
+.color-swatch { width:30px; height:30px; border-radius:50%; cursor:pointer; border:3px solid transparent; transition:transform 0.15s; }
+.color-swatch:hover { transform:scale(1.15); }
+.color-swatch.selected { border-color:var(--text); transform:scale(1.1); }
+
+.emoji-picker { display:flex; gap:0.5rem; flex-wrap:wrap; }
+.emoji-opt { width:36px; height:36px; border-radius:10px; border:2px solid var(--border); cursor:pointer; font-size:1.1rem; display:flex; align-items:center; justify-content:center; transition:all 0.15s; background:white; }
+.emoji-opt:hover { border-color:var(--purple); background:var(--purple-light); }
+.emoji-opt.selected { border-color:var(--purple); background:var(--purple-light); }
+
+.modal-footer { display:flex; gap:0.8rem; justify-content:flex-end; margin-top:1.5rem; padding-top:1.2rem; border-top:2px solid var(--border); }
+
+/* ── CARD TYPE TABS ── */
+.type-tabs { display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1.2rem; }
+.type-tab { padding:0.45rem 0.9rem; border-radius:50px; border:2px solid var(--border); font-family:'Nunito',sans-serif; font-weight:800; font-size:0.8rem; cursor:pointer; background:white; color:var(--muted); transition:all 0.15s; display:flex; align-items:center; gap:0.3rem; }
+.type-tab:hover { border-color:var(--purple); color:var(--purple); }
+.type-tab.active { background:var(--purple); color:white; border-color:var(--purple-dark); }
+.type-tab.locked { opacity:0.5; cursor:not-allowed; position:relative; }
+.type-tab.locked::after { content:'⭐ Pro'; font-size:0.65rem; background:var(--yellow); color:#78350F; padding:1px 5px; border-radius:4px; margin-left:2px; }
+
+/* ── MCQ OPTIONS ── */
+.mcq-options { display:flex; flex-direction:column; gap:0.6rem; }
+.mcq-option-row { display:flex; align-items:center; gap:0.6rem; }
+.mcq-option-row input[type=radio] { accent-color:var(--purple); width:16px; height:16px; flex-shrink:0; }
+.mcq-option-row .form-input { flex:1; }
+.mcq-correct-label { font-size:0.7rem; color:var(--green); font-weight:800; white-space:nowrap; }
+
+/* ── DECK DETAIL VIEW ── */
+.back-btn { display:inline-flex; align-items:center; gap:0.4rem; color:var(--muted); font-weight:700; font-size:0.88rem; cursor:pointer; margin-bottom:1.2rem; transition:color 0.15s; background:none; border:none; }
+.back-btn:hover { color:var(--purple); }
+
+.deck-detail-header { background:white; border:2px solid var(--border); border-radius:20px; padding:1.5rem; margin-bottom:1.5rem; display:flex; align-items:center; gap:1.2rem; flex-wrap:wrap; }
+.deck-detail-icon { width:64px; height:64px; border-radius:18px; display:flex; align-items:center; justify-content:center; font-size:2rem; border:2px solid transparent; flex-shrink:0; }
+.deck-detail-info { flex:1; }
+.deck-detail-name { font-family:'Boogaloo',cursive; font-size:1.8rem; margin-bottom:0.2rem; }
+.deck-detail-meta { color:var(--muted); font-size:0.88rem; font-weight:600; }
+.deck-detail-actions { display:flex; gap:0.6rem; }
+
+.cards-list { display:flex; flex-direction:column; gap:0.8rem; }
+
+.card-item {
+  background:white; border:2px solid var(--border); border-radius:16px; padding:1.1rem 1.3rem;
+  display:flex; align-items:flex-start; gap:1rem; transition:box-shadow 0.2s;
+}
+.card-item:hover { box-shadow:0 4px 0 var(--border); }
+.card-num { width:28px; height:28px; border-radius:8px; background:var(--purple-light); color:var(--purple); font-weight:800; font-size:0.8rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; }
+.card-content { flex:1; }
+.card-type-pill { font-size:0.68rem; font-weight:800; padding:2px 8px; border-radius:50px; border:1.5px solid transparent; display:inline-block; margin-bottom:0.4rem; }
+.card-question { font-weight:700; font-size:0.9rem; margin-bottom:0.3rem; line-height:1.4; }
+.card-answer { font-size:0.82rem; color:var(--muted); font-weight:600; }
+.card-actions { display:flex; gap:0.4rem; flex-shrink:0; }
+.icon-btn { width:30px; height:30px; border-radius:8px; border:1.5px solid var(--border); background:none; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:0.85rem; transition:all 0.15s; color:var(--muted); }
+.icon-btn:hover { background:var(--bg); color:var(--text); }
+.icon-btn.del:hover { background:var(--red-light); color:var(--red); border-color:#FECACA; }
+
+/* ── LIMIT LOCK OVERLAY ── */
+.lock-overlay {
+  background:white; border:2px dashed var(--border); border-radius:16px; padding:2rem;
+  text-align:center; display:none;
+}
+.lock-overlay.show { display:block; }
+.lock-icon { font-size:2.5rem; margin-bottom:0.8rem; }
+.lock-title { font-weight:800; font-size:1rem; margin-bottom:0.4rem; }
+.lock-desc { font-size:0.85rem; color:var(--muted); font-weight:600; margin-bottom:1.2rem; }
+
+/* ── TOAST ── */
+.toast {
+  position:fixed; bottom:1.5rem; right:1.5rem; background:var(--text); color:white;
+  padding:0.7rem 1.2rem; border-radius:12px; font-weight:700; font-size:0.88rem;
+  z-index:9999; opacity:0; transform:translateY(10px);
+  transition:all 0.25s; pointer-events:none; max-width:300px;
+}
+.toast.show { opacity:1; transform:translateY(0); }
+.toast.green { background:#16A34A; }
+.toast.red { background:var(--red); }
+
+/* ── EMPTY STATE ── */
+.empty-state { text-align:center; padding:4rem 2rem; }
+.empty-icon { font-size:3.5rem; margin-bottom:1rem; }
+.empty-title { font-family:'Boogaloo',cursive; font-size:1.5rem; margin-bottom:0.5rem; }
+.empty-desc { color:var(--muted); font-weight:600; font-size:0.9rem; margin-bottom:1.5rem; }
+
+/* ── STATS MINI ── */
+.stats-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:0.8rem; margin-bottom:1.5rem; }
+.stat-chip { background:white; border:2px solid var(--border); border-radius:14px; padding:1rem; text-align:center; }
+.stat-chip-num { font-family:'Boogaloo',cursive; font-size:1.8rem; color:var(--purple); }
+.stat-chip-label { font-size:0.72rem; font-weight:800; color:var(--muted); text-transform:uppercase; letter-spacing:0.04em; }
+
+/* ── PRO UPGRADE MODAL ── */
+.pro-features { display:flex; flex-direction:column; gap:0.6rem; margin:1rem 0 1.5rem; }
+.pro-feature { display:flex; align-items:center; gap:0.7rem; font-weight:700; font-size:0.9rem; }
+.pro-check { width:22px; height:22px; border-radius:6px; background:var(--green-light); color:var(--green); font-size:0.75rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-weight:800; }
+
+/* ── RESPONSIVE ── */
+@media(max-width:700px) {
+  .sidebar { display:none; }
+  .main { padding:1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-logo">📖 My Study Buddy <span>Beta</span></div>
+  <div class="topbar-right">
+    <div class="tier-badge" id="tierBadge" onclick="showUpgradeModal()">🆓 Free Plan</div>
+    <div class="avatar">JS</div>
+  </div>
+</div>
+
+<div class="app-body">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-label">Menu</div>
+    <div class="sidebar-item active" onclick="showView('decks',this)">
+      <div class="si-icon" style="background:#EDE9FE;">📚</div> My Decks
+      <span class="si-count" id="sidebarDeckCount">0</span>
+    </div>
+    <div class="sidebar-item" onclick="showView('stats',this)">
+      <div class="si-icon" style="background:#DCFCE7;">📊</div> Stats
+    </div>
+    <div class="sidebar-item" onclick="showView('settings',this)">
+      <div class="si-icon" style="background:#FFF7ED;">⚙️</div> Settings
+    </div>
+  </div>
+
+  <div class="sidebar-divider"></div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-label">Quick add</div>
+    <div class="sidebar-item" onclick="openNewDeckModal()">
+      <div class="si-icon" style="background:#F0FDF4;">➕</div> New Deck
+    </div>
+  </div>
+
+  <div style="flex:1;"></div>
+
+  <div class="upgrade-box" id="upgradeBox">
+    <h4>⭐ Upgrade to Pro</h4>
+    <p>Unlock all card types, unlimited decks, export & sharing.</p>
+    <button class="btn-upgrade" onclick="showUpgradeModal()">Upgrade — $4.99/mo</button>
+  </div>
+  <div style="height:1rem;"></div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- ═══ DECKS VIEW ═══ -->
+  <div class="view active" id="view-decks">
+
+    <div class="page-header">
+      <div class="page-title">My <span>Test Banks</span> 📚</div>
+      <button class="btn btn-primary" onclick="openNewDeckModal()">➕ New Deck</button>
+    </div>
+
+    <!-- Free tier limit bar -->
+    <div class="limit-bar-wrap" id="limitBar">
+      <div class="limit-item">
+        <div class="limit-label">Decks used <span id="deckLimitText">0 / 5</span></div>
+        <div class="limit-track"><div class="limit-fill ok" id="deckLimitFill" style="width:0%"></div></div>
+      </div>
+      <div class="limit-item">
+        <div class="limit-label">Card types available <span id="typeCountText">1 of 4</span></div>
+        <div class="limit-track"><div class="limit-fill warn" id="typeLimitFill" style="width:25%"></div></div>
+      </div>
+      <div class="limit-pro-note" onclick="showUpgradeModal()">⭐ Unlock everything →</div>
+    </div>
+
+    <!-- Stats row -->
+    <div class="stats-row">
+      <div class="stat-chip"><div class="stat-chip-num" id="statDecks">0</div><div class="stat-chip-label">Decks</div></div>
+      <div class="stat-chip"><div class="stat-chip-num" id="statCards">0</div><div class="stat-chip-label">Total Cards</div></div>
+      <div class="stat-chip"><div class="stat-chip-num" id="statGroups">0</div><div class="stat-chip-label">Question Groups</div></div>
+      <div class="stat-chip"><div class="stat-chip-num" style="color:var(--coral)">🍅 0</div><div class="stat-chip-label">Sessions</div></div>
+    </div>
+
+    <!-- Deck grid -->
+    <div class="deck-grid" id="deckGrid">
+      <div class="add-deck-card" onclick="openNewDeckModal()">
+        <div class="add-deck-icon">➕</div>
+        <span>Create your first deck</span>
+        <span style="font-size:0.78rem;">Click to get started</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ DECK DETAIL VIEW ═══ -->
+  <div class="view" id="view-deck-detail">
+    <button class="back-btn" onclick="showView('decks')">← Back to all decks</button>
+
+    <div class="deck-detail-header" id="deckDetailHeader"></div>
+
+    <!-- Per-deck card limit bar -->
+    <div class="limit-bar-wrap" id="cardLimitBar">
+      <div class="limit-item">
+        <div class="limit-label">Cards in this deck <span id="cardLimitText">0 / 15</span></div>
+        <div class="limit-track"><div class="limit-fill ok" id="cardLimitFill" style="width:0%"></div></div>
+      </div>
+      <div class="limit-item">
+        <div class="limit-label">Question groups <span id="groupLimitText">0 / 5</span></div>
+        <div class="limit-track"><div class="limit-fill ok" id="groupLimitFill" style="width:0%"></div></div>
+      </div>
+      <div class="limit-pro-note" onclick="showUpgradeModal()">⭐ Upgrade for unlimited →</div>
+    </div>
+
+    <div class="page-header">
+      <div style="font-weight:800;font-size:1rem;color:var(--muted);">📋 Cards in this deck</div>
+      <button class="btn btn-primary" id="addCardBtn" onclick="openAddCardModal()">➕ Add Card</button>
+    </div>
+
+    <div id="cardsList" class="cards-list"></div>
+
+    <div class="lock-overlay" id="cardLockOverlay">
+      <div class="lock-icon">🔒</div>
+      <div class="lock-title">Card limit reached</div>
+      <div class="lock-desc" id="lockDesc">Free plan: 15 cards per deck, 5 question groups max.</div>
+      <button class="btn btn-primary" onclick="showUpgradeModal()">⭐ Upgrade to Pro — Unlimited cards</button>
+    </div>
+
+    <div class="empty-state" id="cardsEmpty">
+      <div class="empty-icon">🃏</div>
+      <div class="empty-title">No cards yet!</div>
+      <div class="empty-desc">Add your first card to start building this deck.</div>
+      <button class="btn btn-primary" onclick="openAddCardModal()">➕ Add first card</button>
+    </div>
+  </div>
+
+  <!-- ═══ STATS VIEW ═══ -->
+  <div class="view" id="view-stats">
+    <div class="page-header"><div class="page-title">Study <span>Stats</span> 📊</div></div>
+    <div class="empty-state">
+      <div class="empty-icon">📊</div>
+      <div class="empty-title">Stats coming in Phase 4!</div>
+      <div class="empty-desc">Once you start study sessions your stats will show up here.</div>
+      <button class="btn btn-primary" onclick="showView('decks')">← Go study</button>
+    </div>
+  </div>
+
+  <!-- ═══ SETTINGS VIEW ═══ -->
+  <div class="view" id="view-settings">
+    <div class="page-header"><div class="page-title">⚙️ <span>Settings</span></div></div>
+
+    <div style="background:white;border:2px solid var(--border);border-radius:20px;padding:1.5rem;max-width:500px;">
+      <h3 style="font-weight:800;margin-bottom:1.2rem;">🎭 Demo: Switch Tier</h3>
+      <p style="font-size:0.85rem;color:var(--muted);font-weight:600;margin-bottom:1rem;">Toggle your plan tier to see how access controls work in the live app.</p>
+      <div style="display:flex;gap:0.7rem;flex-wrap:wrap;">
+        <button class="btn btn-ghost" onclick="setTier('free')">🆓 Free</button>
+        <button class="btn btn-primary" onclick="setTier('pro')">⭐ Pro</button>
+        <button class="btn btn-yellow" onclick="setTier('teams')">🏫 Teams</button>
+      </div>
+      <p style="margin-top:1rem;font-size:0.78rem;color:var(--muted);font-weight:600;">Current tier: <strong id="currentTierLabel">Free</strong></p>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<!-- ═══ NEW DECK MODAL ═══ -->
+<div class="modal-overlay" id="newDeckModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">📚 Create New Deck</div>
+      <button class="modal-close" onclick="closeModal('newDeckModal')">✕</button>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Deck name</label>
+      <input class="form-input" id="deckNameInput" placeholder="e.g. Biology Chapter 4" maxlength="60">
+      <div class="form-error" id="deckNameError">Please enter a deck name.</div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Subject tag <span>(optional)</span></label>
+      <select class="form-select" id="deckSubject">
+        <option value="">— No tag —</option>
+        <option>Biology</option><option>Chemistry</option><option>Physics</option>
+        <option>Math</option><option>History</option><option>English</option>
+        <option>Computer Science</option><option>Geography</option><option>Other</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Pick an icon</label>
+      <div class="emoji-picker" id="emojiPicker">
+        <div class="emoji-opt selected" data-emoji="📚">📚</div>
+        <div class="emoji-opt" data-emoji="🧬">🧬</div>
+        <div class="emoji-opt" data-emoji="⚗️">⚗️</div>
+        <div class="emoji-opt" data-emoji="🔢">🔢</div>
+        <div class="emoji-opt" data-emoji="🏛️">🏛️</div>
+        <div class="emoji-opt" data-emoji="💻">💻</div>
+        <div class="emoji-opt" data-emoji="🌍">🌍</div>
+        <div class="emoji-opt" data-emoji="✏️">✏️</div>
+        <div class="emoji-opt" data-emoji="🎨">🎨</div>
+        <div class="emoji-opt" data-emoji="🎵">🎵</div>
+        <div class="emoji-opt" data-emoji="⚽">⚽</div>
+        <div class="emoji-opt" data-emoji="🧠">🧠</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Deck color</label>
+      <div class="color-picker" id="colorPicker">
+        <div class="color-swatch selected" data-color="#7C3AED" style="background:#7C3AED"></div>
+        <div class="color-swatch" data-color="#F97316" style="background:#F97316"></div>
+        <div class="color-swatch" data-color="#14B8A6" style="background:#14B8A6"></div>
+        <div class="color-swatch" data-color="#EC4899" style="background:#EC4899"></div>
+        <div class="color-swatch" data-color="#3B82F6" style="background:#3B82F6"></div>
+        <div class="color-swatch" data-color="#22C55E" style="background:#22C55E"></div>
+        <div class="color-swatch" data-color="#F59E0B" style="background:#F59E0B"></div>
+        <div class="color-swatch" data-color="#EF4444" style="background:#EF4444"></div>
+      </div>
+    </div>
+
+    <div class="form-error" id="deckLimitError" style="font-size:0.85rem;margin-bottom:0.5rem;"></div>
+
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('newDeckModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="createDeck()">✓ Create Deck</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ADD CARD MODAL ═══ -->
+<div class="modal-overlay" id="addCardModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">🃏 Add Card</div>
+      <button class="modal-close" onclick="closeModal('addCardModal')">✕</button>
+    </div>
+
+    <!-- Card type selector -->
+    <div class="form-group">
+      <label class="form-label">Card type</label>
+      <div class="type-tabs" id="cardTypeTabs">
+        <button class="type-tab active" data-type="qa" onclick="selectCardType('qa',this)">💬 Basic Q&A</button>
+        <button class="type-tab" data-type="tf" onclick="selectCardType('tf',this)" id="tabTF">✓✗ True / False</button>
+        <button class="type-tab" data-type="mcq" onclick="selectCardType('mcq',this)" id="tabMCQ">🔤 Multiple Choice</button>
+        <button class="type-tab" data-type="fitb" onclick="selectCardType('fitb',this)" id="tabFITB">✏️ Fill in Blank</button>
+      </div>
+    </div>
+
+    <!-- Question group -->
+    <div class="form-group">
+      <label class="form-label">Question group <span>(optional — organizes cards)</span></label>
+      <input class="form-input" id="cardGroup" placeholder="e.g. Chapter 1, Week 2, Topic A...">
+      <div class="form-hint">Group cards together for targeted studying. Free: max 5 groups per deck.</div>
+      <div class="form-error" id="groupLimitError">Free plan: max 5 question groups per deck. <span style="color:var(--purple);cursor:pointer;" onclick="showUpgradeModal()">Upgrade →</span></div>
+    </div>
+
+    <!-- Q&A fields -->
+    <div id="fields-qa">
+      <div class="form-group">
+        <label class="form-label">Question</label>
+        <textarea class="form-textarea" id="qa-question" placeholder="Enter your question..."></textarea>
+        <div class="form-error" id="qaQError">Please enter a question.</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Answer</label>
+        <textarea class="form-textarea" id="qa-answer" placeholder="Enter the answer..."></textarea>
+        <div class="form-error" id="qaAError">Please enter an answer.</div>
+      </div>
+    </div>
+
+    <!-- T/F fields -->
+    <div id="fields-tf" style="display:none;">
+      <div class="form-group">
+        <label class="form-label">Statement</label>
+        <textarea class="form-textarea" id="tf-statement" placeholder="Enter a true or false statement..."></textarea>
+        <div class="form-error" id="tfStmtError">Please enter a statement.</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Correct answer</label>
+        <select class="form-select" id="tf-answer">
+          <option value="true">✓ True</option>
+          <option value="false">✗ False</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Explanation <span>(optional)</span></label>
+        <textarea class="form-textarea" id="tf-explanation" placeholder="Why is this true or false?" style="min-height:60px;"></textarea>
+      </div>
+    </div>
+
+    <!-- MCQ fields -->
+    <div id="fields-mcq" style="display:none;">
+      <div class="form-group">
+        <label class="form-label">Question</label>
+        <textarea class="form-textarea" id="mcq-question" placeholder="Enter your question..."></textarea>
+        <div class="form-error" id="mcqQError">Please enter a question.</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Answer choices <span>(select the correct one)</span></label>
+        <div class="mcq-options" id="mcqOptions">
+          <div class="mcq-option-row"><input type="radio" name="mcqCorrect" value="0" checked><input class="form-input" placeholder="Choice A" data-mcq-opt="0"><span class="mcq-correct-label">← Correct</span></div>
+          <div class="mcq-option-row"><input type="radio" name="mcqCorrect" value="1"><input class="form-input" placeholder="Choice B" data-mcq-opt="1"></div>
+          <div class="mcq-option-row"><input type="radio" name="mcqCorrect" value="2"><input class="form-input" placeholder="Choice C" data-mcq-opt="2"></div>
+          <div class="mcq-option-row"><input type="radio" name="mcqCorrect" value="3"><input class="form-input" placeholder="Choice D" data-mcq-opt="3"></div>
+        </div>
+        <div class="form-error" id="mcqOptError">Please fill in at least 2 choices.</div>
+      </div>
+    </div>
+
+    <!-- FITB fields -->
+    <div id="fields-fitb" style="display:none;">
+      <div class="form-group">
+        <label class="form-label">Sentence with blank</label>
+        <textarea class="form-textarea" id="fitb-sentence" placeholder="The ___ is the powerhouse of the cell."></textarea>
+        <div class="form-hint">Use ___ (three underscores) to mark the blank.</div>
+        <div class="form-error" id="fitbSentError">Please enter a sentence with ___ for the blank.</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Correct answer</label>
+        <input class="form-input" id="fitb-answer" placeholder="The word that fills the blank">
+        <div class="form-error" id="fitbAnsError">Please enter the answer.</div>
+      </div>
+    </div>
+
+    <div class="form-error" id="cardCountError" style="font-size:0.85rem;margin-bottom:0.5rem;"></div>
+
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('addCardModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="addCard()">✓ Add Card</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ UPGRADE MODAL ═══ -->
+<div class="modal-overlay" id="upgradeModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">⭐ Upgrade to Pro</div>
+      <button class="modal-close" onclick="closeModal('upgradeModal')">✕</button>
+    </div>
+    <p style="color:var(--muted);font-weight:600;font-size:0.9rem;margin-bottom:0.5rem;">Unlock everything for just <strong style="color:var(--purple)">$4.99/month</strong></p>
+    <div class="pro-features">
+      <div class="pro-feature"><div class="pro-check">✓</div> Unlimited decks (Free: 5 max)</div>
+      <div class="pro-feature"><div class="pro-check">✓</div> Unlimited cards per deck (Free: 15 max)</div>
+      <div class="pro-feature"><div class="pro-check">✓</div> Unlimited question groups (Free: 5 max)</div>
+      <div class="pro-feature"><div class="pro-check">✓</div> All 4 card types — T/F, MCQ, Fill in Blank</div>
+      <div class="pro-feature"><div class="pro-check">✓</div> Export decks as PDF or CSV</div>
+      <div class="pro-feature"><div class="pro-check">✓</div> Share decks via link</div>
+      <div class="pro-feature"><div class="pro-check">✓</div> Advanced stats & study streaks</div>
+    </div>
+    <button class="btn btn-primary" style="width:100%;padding:0.85rem;font-size:1rem;justify-content:center;margin-bottom:0.6rem;" onclick="setTier('pro');closeModal('upgradeModal');showToast('⭐ Pro unlocked! Enjoy all features.','green')">🚀 Upgrade Now — $4.99/mo</button>
+    <button class="btn btn-ghost" style="width:100%;justify-content:center;" onclick="closeModal('upgradeModal')">Maybe later</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════
+const TIERS = {
+  free:  { maxDecks:5,       maxCards:15, maxGroups:5, types:['qa'],                label:'🆓 Free Plan' },
+  pro:   { maxDecks:Infinity, maxCards:Infinity, maxGroups:Infinity, types:['qa','tf','mcq','fitb'], label:'⭐ Pro Plan' },
+  teams: { maxDecks:Infinity, maxCards:Infinity, maxGroups:Infinity, types:['qa','tf','mcq','fitb'], label:'🏫 Teams Plan' }
+};
+
+let tier = 'free';
+let decks = [];
+let currentDeckId = null;
+let selectedEmoji = '📚';
+let selectedColor = '#7C3AED';
+let selectedCardType = 'qa';
+let editingCardId = null;
+
+// ══════════════════════════════════════════
+// VIEW ROUTING
+// ══════════════════════════════════════════
+function showView(name, sidebarEl) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
+  if (sidebarEl) sidebarEl.classList.add('active');
+  if (name === 'decks') renderDecks();
+}
+
+// ══════════════════════════════════════════
+// TIER
+// ══════════════════════════════════════════
+function setTier(t) {
+  tier = t;
+  const cfg = TIERS[t];
+  document.getElementById('tierBadge').textContent = cfg.label;
+  document.getElementById('tierBadge').className = 'tier-badge' + (t !== 'free' ? ' pro' : '');
+  document.getElementById('upgradeBox').style.display = t === 'free' ? 'block' : 'none';
+  document.getElementById('currentTierLabel').textContent = t.charAt(0).toUpperCase() + t.slice(1);
+  renderDecks();
+  showToast('Plan set to ' + cfg.label);
+  updateTypeTabs();
+  updateTypeText();
+}
+
+function getLimits() { return TIERS[tier]; }
+
+// ══════════════════════════════════════════
+// MODALS
+// ══════════════════════════════════════════
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+document.querySelectorAll('.modal-overlay').forEach(o => {
+  o.addEventListener('click', e => { if (e.target === o) o.classList.remove('open'); });
+});
+
+function showUpgradeModal() { openModal('upgradeModal'); }
+
+// ══════════════════════════════════════════
+// NEW DECK MODAL
+// ══════════════════════════════════════════
+function openNewDeckModal() {
+  const lim = getLimits();
+  if (decks.length >= lim.maxDecks) {
+    document.getElementById('deckLimitError').textContent = `Free plan allows max ${lim.maxDecks} decks. Upgrade for unlimited!`;
+    document.getElementById('deckLimitError').classList.add('show');
+    openModal('newDeckModal');
+    return;
+  }
+  document.getElementById('deckLimitError').classList.remove('show');
+  document.getElementById('deckNameInput').value = '';
+  document.getElementById('deckSubject').value = '';
+  document.getElementById('deckNameError').classList.remove('show');
+  selectedEmoji = '📚'; selectedColor = '#7C3AED';
+  document.querySelectorAll('.emoji-opt').forEach(e => e.classList.toggle('selected', e.dataset.emoji === '📚'));
+  document.querySelectorAll('.color-swatch').forEach(s => s.classList.toggle('selected', s.dataset.color === '#7C3AED'));
+  openModal('newDeckModal');
+}
+
+// Emoji picker
+document.getElementById('emojiPicker').addEventListener('click', e => {
+  const el = e.target.closest('.emoji-opt'); if (!el) return;
+  document.querySelectorAll('.emoji-opt').forEach(x => x.classList.remove('selected'));
+  el.classList.add('selected'); selectedEmoji = el.dataset.emoji;
+});
+
+// Color picker
+document.getElementById('colorPicker').addEventListener('click', e => {
+  const el = e.target.closest('.color-swatch'); if (!el) return;
+  document.querySelectorAll('.color-swatch').forEach(x => x.classList.remove('selected'));
+  el.classList.add('selected'); selectedColor = el.dataset.color;
+});
+
+function createDeck() {
+  const name = document.getElementById('deckNameInput').value.trim();
+  if (!name) { document.getElementById('deckNameError').classList.add('show'); return; }
+  document.getElementById('deckNameError').classList.remove('show');
+  const lim = getLimits();
+  if (decks.length >= lim.maxDecks) { showUpgradeModal(); return; }
+
+  const deck = {
+    id: Date.now().toString(),
+    name, emoji: selectedEmoji, color: selectedColor,
+    subject: document.getElementById('deckSubject').value,
+    cards: [], createdAt: new Date().toISOString()
+  };
+  decks.push(deck);
+  closeModal('newDeckModal');
+  renderDecks();
+  showToast('✓ Deck created!', 'green');
+}
+
+// ══════════════════════════════════════════
+// RENDER DECKS
+// ══════════════════════════════════════════
+function renderDecks() {
+  const grid = document.getElementById('deckGrid');
+  const lim = getLimits();
+
+  // Stats
+  const totalCards = decks.reduce((a,d) => a + d.cards.length, 0);
+  const totalGroups = decks.reduce((a,d) => {
+    const groups = [...new Set(d.cards.map(c => c.group).filter(Boolean))];
+    return a + groups.length;
+  }, 0);
+  document.getElementById('statDecks').textContent = decks.length;
+  document.getElementById('statCards').textContent = totalCards;
+  document.getElementById('statGroups').textContent = totalGroups;
+  document.getElementById('sidebarDeckCount').textContent = decks.length;
+
+  // Limit bar
+  const dp = lim.maxDecks === Infinity ? 0 : Math.round((decks.length / lim.maxDecks) * 100);
+  document.getElementById('deckLimitText').textContent = lim.maxDecks === Infinity ? `${decks.length} (unlimited)` : `${decks.length} / ${lim.maxDecks}`;
+  const df = document.getElementById('deckLimitFill');
+  df.style.width = Math.min(dp, 100) + '%';
+  df.className = 'limit-fill ' + (dp >= 100 ? 'full' : dp >= 75 ? 'warn' : 'ok');
+  document.getElementById('limitBar').style.display = tier === 'free' ? 'flex' : 'none';
+
+  updateTypeText();
+
+  // Build grid
+  let html = '';
+  decks.forEach(deck => {
+    const groups = [...new Set(deck.cards.map(c => c.group).filter(Boolean))];
+    const mastered = deck.cards.filter(c => c.mastered).length;
+    const pct = deck.cards.length ? Math.round((mastered / deck.cards.length) * 100) : 0;
+    const lightenHex = deck.color + '22';
+    html += `
+      <div class="deck-card" onclick="openDeck('${deck.id}')">
+        <div class="deck-card-top">
+          <div class="deck-icon" style="background:${lightenHex};border-color:${deck.color}33;">${deck.emoji}</div>
+          <button class="deck-menu-btn" onclick="event.stopPropagation();deleteDeck('${deck.id}')">🗑️</button>
+        </div>
+        <div class="deck-name">${deck.name}</div>
+        <div class="deck-meta">${deck.cards.length} card${deck.cards.length !== 1 ? 's' : ''} · ${groups.length} group${groups.length !== 1 ? 's' : ''}</div>
+        <div class="deck-progress-label"><span>Progress</span><span>${pct}%</span></div>
+        <div class="deck-progress-track"><div class="deck-progress-fill" style="width:${pct}%;background:${deck.color}"></div></div>
+        <div class="deck-footer">
+          ${deck.subject ? `<span class="deck-tag" style="background:${lightenHex};border-color:${deck.color}44;color:${deck.color}">${deck.subject}</span>` : ''}
+          <span class="deck-tag" style="background:#F4F4F5;border-color:#E4E4E7;color:#71717A">${deck.cards.length} cards</span>
+        </div>
+      </div>`;
+  });
+
+  // Add new deck card (show only if under limit)
+  if (lim.maxDecks === Infinity || decks.length < lim.maxDecks) {
+    html += `<div class="add-deck-card" onclick="openNewDeckModal()">
+      <div class="add-deck-icon">➕</div>
+      <span>Create new deck</span>
+      <span style="font-size:0.78rem;">Click to get started</span>
+    </div>`;
+  } else {
+    html += `<div class="add-deck-card" onclick="showUpgradeModal()" style="border-color:#DDD6FE;background:var(--purple-light);">
+      <div class="add-deck-icon" style="background:var(--purple);color:white;">🔒</div>
+      <span style="color:var(--purple);">Deck limit reached</span>
+      <span style="font-size:0.78rem;color:var(--purple);">Upgrade for unlimited</span>
+    </div>`;
+  }
+
+  grid.innerHTML = html;
+}
+
+function updateTypeText() {
+  const lim = getLimits();
+  const n = lim.types.length;
+  document.getElementById('typeCountText').textContent = `${n} of 4`;
+  document.getElementById('typeLimitFill').style.width = (n / 4 * 100) + '%';
+}
+
+function deleteDeck(id) {
+  if (!confirm('Delete this deck and all its cards?')) return;
+  decks = decks.filter(d => d.id !== id);
+  renderDecks();
+  showToast('Deck deleted.', 'red');
+}
+
+// ══════════════════════════════════════════
+// DECK DETAIL
+// ══════════════════════════════════════════
+function openDeck(id) {
+  currentDeckId = id;
+  const deck = decks.find(d => d.id === id);
+  if (!deck) return;
+
+  // Header
+  const lightenHex = deck.color + '22';
+  document.getElementById('deckDetailHeader').innerHTML = `
+    <div class="deck-detail-icon" style="background:${lightenHex};border-color:${deck.color}44;">${deck.emoji}</div>
+    <div class="deck-detail-info">
+      <div class="deck-detail-name">${deck.name}</div>
+      <div class="deck-detail-meta">${deck.subject || 'No subject'} · ${deck.cards.length} cards</div>
+    </div>
+    <div class="deck-detail-actions">
+      <button class="btn btn-ghost btn-sm" onclick="showView('decks')">← Back</button>
+    </div>`;
+
+  showView('deck-detail');
+  document.getElementById('view-deck-detail').classList.add('active');
+  document.getElementById('view-decks').classList.remove('active');
+  renderCardsList();
+}
+
+function renderCardsList() {
+  const deck = decks.find(d => d.id === currentDeckId);
+  if (!deck) return;
+  const lim = getLimits();
+
+  // Card limit bar
+  const cp = lim.maxCards === Infinity ? 0 : Math.round((deck.cards.length / lim.maxCards) * 100);
+  document.getElementById('cardLimitText').textContent = lim.maxCards === Infinity ? `${deck.cards.length} (unlimited)` : `${deck.cards.length} / ${lim.maxCards}`;
+  const cf = document.getElementById('cardLimitFill');
+  cf.style.width = Math.min(cp, 100) + '%';
+  cf.className = 'limit-fill ' + (cp >= 100 ? 'full' : cp >= 75 ? 'warn' : 'ok');
+
+  const groups = [...new Set(deck.cards.map(c => c.group).filter(Boolean))];
+  const gp = lim.maxGroups === Infinity ? 0 : Math.round((groups.length / lim.maxGroups) * 100);
+  document.getElementById('groupLimitText').textContent = lim.maxGroups === Infinity ? `${groups.length} (unlimited)` : `${groups.length} / ${lim.maxGroups}`;
+  const gf = document.getElementById('groupLimitFill');
+  gf.style.width = Math.min(gp, 100) + '%';
+  gf.className = 'limit-fill ' + (gp >= 100 ? 'full' : gp >= 75 ? 'warn' : 'ok');
+  document.getElementById('cardLimitBar').style.display = tier === 'free' ? 'flex' : 'none';
+
+  const atCardLimit = deck.cards.length >= lim.maxCards;
+  document.getElementById('addCardBtn').style.display = atCardLimit ? 'none' : 'inline-flex';
+  document.getElementById('cardLockOverlay').classList.toggle('show', atCardLimit);
+  document.getElementById('cardsEmpty').style.display = deck.cards.length === 0 && !atCardLimit ? 'block' : 'none';
+
+  if (deck.cards.length === 0) { document.getElementById('cardsList').innerHTML = ''; return; }
+
+  const typeColors = {
+    qa:   { bg:'#EDE9FE', color:'#5B21B6', border:'#DDD6FE', label:'Q&A' },
+    tf:   { bg:'#FFF7ED', color:'#C2410C', border:'#FED7AA', label:'True/False' },
+    mcq:  { bg:'#EFF6FF', color:'#1D4ED8', border:'#BFDBFE', label:'Multiple Choice' },
+    fitb: { bg:'#F0FDF4', color:'#15803D', border:'#BBF7D0', label:'Fill in Blank' }
+  };
+
+  // Group cards
+  const grouped = {};
+  deck.cards.forEach(c => {
+    const g = c.group || '__none__';
+    if (!grouped[g]) grouped[g] = [];
+    grouped[g].push(c);
+  });
+
+  let html = '';
+  Object.entries(grouped).forEach(([group, cards]) => {
+    if (group !== '__none__') {
+      html += `<div style="font-size:0.78rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin:1.2rem 0 0.6rem;padding-left:0.2rem;">📁 ${group} (${cards.length} card${cards.length!==1?'s':''})</div>`;
+    }
+    cards.forEach((card, i) => {
+      const tc = typeColors[card.type] || typeColors.qa;
+      let ansDisplay = '';
+      if (card.type === 'qa') ansDisplay = card.answer;
+      else if (card.type === 'tf') ansDisplay = (card.answer === 'true' ? '✓ True' : '✗ False') + (card.explanation ? ` — ${card.explanation}` : '');
+      else if (card.type === 'mcq') ansDisplay = `✓ ${card.options[card.correct]} (${card.options.filter(Boolean).length} choices)`;
+      else if (card.type === 'fitb') ansDisplay = `Answer: "${card.answer}"`;
+
+      html += `<div class="card-item">
+        <div class="card-num">${i+1}</div>
+        <div class="card-content">
+          <span class="card-type-pill" style="background:${tc.bg};color:${tc.color};border-color:${tc.border}">${tc.label}</span>
+          <div class="card-question">${card.question || card.statement || card.sentence}</div>
+          <div class="card-answer">${ansDisplay}</div>
+        </div>
+        <div class="card-actions">
+          <button class="icon-btn del" onclick="deleteCard('${card.id}')">🗑️</button>
+        </div>
+      </div>`;
+    });
+  });
+
+  document.getElementById('cardsList').innerHTML = html;
+}
+
+function deleteCard(cardId) {
+  const deck = decks.find(d => d.id === currentDeckId);
+  if (!deck) return;
+  deck.cards = deck.cards.filter(c => c.id !== cardId);
+  renderCardsList();
+  showToast('Card removed.', 'red');
+}
+
+// ══════════════════════════════════════════
+// ADD CARD MODAL
+// ══════════════════════════════════════════
+function openAddCardModal() {
+  const deck = decks.find(d => d.id === currentDeckId);
+  const lim = getLimits();
+  if (deck && deck.cards.length >= lim.maxCards) { showUpgradeModal(); return; }
+
+  selectedCardType = 'qa';
+  document.querySelectorAll('.type-tab').forEach(t => t.classList.toggle('active', t.dataset.type === 'qa'));
+  showCardFields('qa');
+  clearCardForm();
+  updateTypeTabs();
+  openModal('addCardModal');
+}
+
+function updateTypeTabs() {
+  const lim = getLimits();
+  ['tf','mcq','fitb'].forEach(t => {
+    const tab = document.querySelector(`.type-tab[data-type="${t}"]`);
+    if (!tab) return;
+    const locked = !lim.types.includes(t);
+    tab.classList.toggle('locked', locked);
+  });
+}
+
+function selectCardType(type, el) {
+  const lim = getLimits();
+  if (!lim.types.includes(type)) { showUpgradeModal(); return; }
+  selectedCardType = type;
+  document.querySelectorAll('.type-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  showCardFields(type);
+
+  // Update radio labels for MCQ
+  if (type === 'mcq') {
+    document.querySelectorAll('#mcqOptions .mcq-option-row').forEach((row, i) => {
+      const radio = row.querySelector('input[type=radio]');
+      const label = row.querySelector('.mcq-correct-label');
+      radio.checked = i === 0;
+      if (label) label.style.display = i === 0 ? 'inline' : 'none';
+    });
+    document.querySelectorAll('#mcqOptions input[type=radio]').forEach((r,i) => {
+      r.addEventListener('change', () => {
+        document.querySelectorAll('#mcqOptions .mcq-correct-label').forEach((l,j) => l.style.display = j===i?'inline':'none');
+      });
+    });
+  }
+}
+
+function showCardFields(type) {
+  ['qa','tf','mcq','fitb'].forEach(t => {
+    document.getElementById('fields-' + t).style.display = t === type ? 'block' : 'none';
+  });
+}
+
+function clearCardForm() {
+  ['qa-question','qa-answer','tf-statement','tf-explanation','mcq-question','fitb-sentence','fitb-answer','cardGroup'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
+  document.querySelectorAll('[data-mcq-opt]').forEach(i => i.value = '');
+  document.querySelectorAll('.form-error').forEach(e => e.classList.remove('show'));
+}
+
+function addCard() {
+  const deck = decks.find(d => d.id === currentDeckId);
+  if (!deck) return;
+  const lim = getLimits();
+
+  // Card count check
+  if (deck.cards.length >= lim.maxCards) {
+    document.getElementById('cardCountError').textContent = `Free plan: max ${lim.maxCards} cards per deck. Upgrade for unlimited!`;
+    document.getElementById('cardCountError').classList.add('show');
+    return;
+  }
+
+  // Group limit check
+  const groupVal = document.getElementById('cardGroup').value.trim();
+  if (groupVal) {
+    const existingGroups = [...new Set(deck.cards.map(c => c.group).filter(Boolean))];
+    const isNewGroup = !existingGroups.includes(groupVal);
+    if (isNewGroup && existingGroups.length >= lim.maxGroups) {
+      document.getElementById('groupLimitError').classList.add('show');
+      return;
+    }
+  }
+  document.getElementById('groupLimitError').classList.remove('show');
+  document.getElementById('cardCountError').classList.remove('show');
+
+  let card = { id: Date.now().toString(), type: selectedCardType, group: groupVal };
+  let valid = true;
+
+  if (selectedCardType === 'qa') {
+    const q = document.getElementById('qa-question').value.trim();
+    const a = document.getElementById('qa-answer').value.trim();
+    if (!q) { document.getElementById('qaQError').classList.add('show'); valid = false; }
+    else document.getElementById('qaQError').classList.remove('show');
+    if (!a) { document.getElementById('qaAError').classList.add('show'); valid = false; }
+    else document.getElementById('qaAError').classList.remove('show');
+    if (!valid) return;
+    card.question = q; card.answer = a;
+
+  } else if (selectedCardType === 'tf') {
+    const s = document.getElementById('tf-statement').value.trim();
+    if (!s) { document.getElementById('tfStmtError').classList.add('show'); return; }
+    document.getElementById('tfStmtError').classList.remove('show');
+    card.statement = s;
+    card.answer = document.getElementById('tf-answer').value;
+    card.explanation = document.getElementById('tf-explanation').value.trim();
+
+  } else if (selectedCardType === 'mcq') {
+    const q = document.getElementById('mcq-question').value.trim();
+    if (!q) { document.getElementById('mcqQError').classList.add('show'); valid = false; }
+    else document.getElementById('mcqQError').classList.remove('show');
+    const opts = [...document.querySelectorAll('[data-mcq-opt]')].map(i => i.value.trim());
+    const filledOpts = opts.filter(Boolean);
+    if (filledOpts.length < 2) { document.getElementById('mcqOptError').classList.add('show'); valid = false; }
+    else document.getElementById('mcqOptError').classList.remove('show');
+    if (!valid) return;
+    const correctIdx = parseInt(document.querySelector('input[name=mcqCorrect]:checked').value);
+    card.question = q; card.options = opts; card.correct = correctIdx;
+
+  } else if (selectedCardType === 'fitb') {
+    const s = document.getElementById('fitb-sentence').value.trim();
+    const a = document.getElementById('fitb-answer').value.trim();
+    if (!s || !s.includes('___')) { document.getElementById('fitbSentError').classList.add('show'); valid = false; }
+    else document.getElementById('fitbSentError').classList.remove('show');
+    if (!a) { document.getElementById('fitbAnsError').classList.add('show'); valid = false; }
+    else document.getElementById('fitbAnsError').classList.remove('show');
+    if (!valid) return;
+    card.sentence = s; card.answer = a;
+  }
+
+  deck.cards.push(card);
+  closeModal('addCardModal');
+  renderCardsList();
+  showToast(`✓ Card added! (${deck.cards.length}/${lim.maxCards === Infinity ? '∞' : lim.maxCards})`, 'green');
+}
+
+// MCQ radio interaction
+document.querySelectorAll('#mcqOptions input[type=radio]').forEach((r, i) => {
+  r.addEventListener('change', () => {
+    document.querySelectorAll('#mcqOptions .mcq-correct-label').forEach((l, j) => {
+      l.style.display = j === i ? 'inline' : 'none';
+    });
+  });
+});
+// Hide all except first on load
+document.querySelectorAll('#mcqOptions .mcq-correct-label').forEach((l, i) => {
+  l.style.display = i === 0 ? 'inline' : 'none';
+});
+
+// ══════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════
+let toastTimer;
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type ? ' ' + type : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
+renderDecks();
+updateTypeTabs();
+</script>
+</body>
+</html>
