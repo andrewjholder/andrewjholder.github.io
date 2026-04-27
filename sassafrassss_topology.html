@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sassafrassss — Network Topology</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --bg2: #0f1525;
+    --bg3: #151c30;
+    --panel: #1a2235;
+    --border: #1e2d45;
+    --accent: #00d4ff;
+    --accent2: #0099bb;
+    --green: #00e676;
+    --orange: #ff9800;
+    --red: #ff5252;
+    --purple: #ce93d8;
+    --yellow: #ffd54f;
+    --teal: #4dd0e1;
+    --text: #e8f0fe;
+    --text2: #8899aa;
+    --text3: #556677;
+
+    --vlan-main: #00e676;
+    --vlan-iot: #ff9800;
+    --vlan-kids: #ffd54f;
+    --vlan-media: #ce93d8;
+    --vlan-security: #4dd0e1;
+    --vlan-wfh: #81c784;
+    --vlan-mgmt: #607d8b;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    min-height: 100vh;
+    padding: 32px 24px 64px;
+    overflow-x: hidden;
+  }
+
+  /* Grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; }
+
+  /* Header */
+  .header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .header-left h1 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+  .header-left h1 span { color: var(--text2); }
+  .header-left p {
+    font-size: 13px;
+    color: var(--text2);
+    margin-top: 8px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .header-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text2);
+  }
+  .badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 6px var(--green); }
+
+  /* Section titles */
+  .section-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ISP / Gateway row */
+  .top-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 32px;
+  }
+  .isp-block, .gateway-block {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+  }
+  .isp-block {
+    border-left: 3px solid var(--text3);
+  }
+  .gateway-block {
+    border-left: 3px solid var(--accent);
+    box-shadow: 0 0 40px rgba(0,212,255,0.08);
+  }
+  .block-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 8px;
+  }
+  .block-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .block-title .icon { font-size: 22px; }
+  .block-details {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .detail-chip {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 3px 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text2);
+  }
+  .detail-chip.highlight { color: var(--accent); border-color: var(--accent2); }
+
+  .connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 8px;
+    gap: 4px;
+  }
+  .conn-line {
+    width: 2px;
+    height: 50px;
+    background: linear-gradient(to bottom, var(--text3), var(--accent));
+  }
+  .conn-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    white-space: nowrap;
+    background: var(--bg);
+    padding: 2px 6px;
+    border: 1px solid var(--accent2);
+    border-radius: 3px;
+  }
+
+  /* SSIDs row */
+  .ssids-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .ssid-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  .ssid-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .ssid-main::before { background: var(--vlan-main); }
+  .ssid-home::before { background: linear-gradient(to right, var(--vlan-iot), var(--vlan-media)); }
+  .ssid-kids::before { background: var(--vlan-kids); }
+
+  .ssid-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .ssid-name .wifi-icon { margin-right: 6px; }
+  .ssid-security {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    margin-bottom: 10px;
+  }
+  .ssid-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .ssid-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    border: 1px solid;
+  }
+
+  /* VLANs */
+  .vlans-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .vlan-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    position: relative;
+  }
+  .vlan-id-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .vlan-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 3px;
+    background: var(--bg3);
+    border: 1px solid;
+  }
+  .vlan-name {
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .vlan-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 0;
+    border-bottom: 1px solid var(--bg3);
+    font-size: 12px;
+  }
+  .vlan-row:last-child { border-bottom: none; }
+  .vlan-key {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text3);
+    font-size: 11px;
+  }
+  .vlan-val {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text2);
+    font-size: 11px;
+    text-align: right;
+  }
+  .vlan-val.mono-accent { color: var(--accent); }
+  .devices-list {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .device-chip {
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 2px 6px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--text2);
+  }
+
+  /* Firewall rules */
+  .fw-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 32px;
+    font-size: 12px;
+  }
+  .fw-table th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text3);
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg3);
+  }
+  .fw-table td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--bg3);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text2);
+    vertical-align: middle;
+  }
+  .fw-table tr:hover td { background: var(--bg3); }
+  .fw-num {
+    color: var(--text3);
+    font-weight: 700;
+  }
+  .fw-name { color: var(--text); font-weight: 600; }
+  .allow-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 700;
+    background: rgba(0,230,118,0.12);
+    color: var(--green);
+    border: 1px solid rgba(0,230,118,0.3);
+  }
+  .block-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 700;
+    background: rgba(255,82,82,0.12);
+    color: var(--red);
+    border: 1px solid rgba(255,82,82,0.3);
+  }
+  .fw-purpose { color: var(--text2); max-width: 280px; }
+
+  /* IP Groups / Port Groups */
+  .groups-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .group-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .group-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .group-entry {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+    border-bottom: 1px solid var(--bg3);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+  }
+  .group-entry:last-child { border-bottom: none; }
+  .group-key { color: var(--text3); min-width: 160px; }
+  .group-val { color: var(--accent); }
+
+  /* Notes / special configs */
+  .notes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .note-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    border-left: 3px solid;
+  }
+  .note-card.warn { border-left-color: var(--yellow); }
+  .note-card.info { border-left-color: var(--accent); }
+  .note-card.ok { border-left-color: var(--green); }
+  .note-title {
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .note-body {
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.6;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-left {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text3);
+  }
+  .footer-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+  .footer-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 3px 8px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--text3);
+  }
+
+  /* Color helpers */
+  .c-main { color: var(--vlan-main); }
+  .c-iot { color: var(--vlan-iot); }
+  .c-kids { color: var(--vlan-kids); }
+  .c-media { color: var(--vlan-media); }
+  .c-security { color: var(--vlan-security); }
+  .c-wfh { color: var(--vlan-wfh); }
+  .c-mgmt { color: var(--vlan-mgmt); }
+  .c-accent { color: var(--accent); }
+
+  .border-main { border-color: var(--vlan-main); }
+  .border-iot { border-color: var(--vlan-iot); }
+  .border-kids { border-color: var(--vlan-kids); }
+  .border-media { border-color: var(--vlan-media); }
+  .border-security { border-color: var(--vlan-security); }
+  .border-wfh { border-color: var(--vlan-wfh); }
+  .border-mgmt { border-color: var(--vlan-mgmt); }
+
+  .bg-main { background: rgba(0,230,118,0.08); }
+  .bg-iot { background: rgba(255,152,0,0.08); }
+  .bg-kids { background: rgba(255,213,79,0.08); }
+  .bg-media { background: rgba(206,147,216,0.08); }
+  .bg-security { background: rgba(77,208,225,0.08); }
+
+  /* Divider with label */
+  .divider { margin: 32px 0; }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .vlans-grid, .ssids-grid, .notes-grid { grid-template-columns: 1fr 1fr; }
+    .top-row { grid-template-columns: 1fr; }
+    .connector { display: none; }
+    .groups-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .vlans-grid, .ssids-grid, .notes-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <h1>📡 SASSAFRASSSS <span>// NETWORK TOPOLOGY</span></h1>
+      <p>UniFi EX7 · WiFi 6E · 6 VLANs · 3 SSIDs · IP Passthrough · West Palm Beach, FL</p>
+    </div>
+    <div class="header-meta">
+      <div class="badge"><span class="dot"></span> UniFi OS 4.1.18 · Network 8.6.9</div>
+      <div class="badge">📋 Last Updated: April 2026 · v3.0</div>
+      <div class="badge">🔒 Confidential — Redacted for sharing</div>
+    </div>
+  </div>
+
+  <!-- ISP → GATEWAY -->
+  <div class="section-title">01 &nbsp; UPSTREAM &amp; GATEWAY</div>
+  <div class="top-row">
+    <div class="isp-block">
+      <div class="block-label">Upstream Provider</div>
+      <div class="block-title"><span class="icon">🌐</span> AT&amp;T Fiber</div>
+      <div class="block-details">
+        <span class="detail-chip">IP Passthrough Mode</span>
+        <span class="detail-chip">Public IP → EX7 Direct</span>
+        <span class="detail-chip">AT&amp;T BGW → Passthrough</span>
+        <span class="detail-chip highlight">WAN IP: [REDACTED]</span>
+      </div>
+    </div>
+    <div class="connector">
+      <div class="conn-line"></div>
+      <div class="conn-label">↕ IP Passthrough</div>
+      <div class="conn-line"></div>
+    </div>
+    <div class="gateway-block">
+      <div class="block-label">Gateway / Controller</div>
+      <div class="block-title"><span class="icon">🖥️</span> UniFi EX7</div>
+      <div class="block-details">
+        <span class="detail-chip highlight">Mgmt: 192.168.1.1</span>
+        <span class="detail-chip">Standalone Controller</span>
+        <span class="detail-chip">WiFi 6E Tri-Band</span>
+        <span class="detail-chip">2.4 / 5 / 6 GHz</span>
+        <span class="detail-chip">WPA3 · WPA2/3 · WPA2</span>
+        <span class="detail-chip">Subnet: 192.168.1.0/24</span>
+        <span class="detail-chip">Admin: 2FA Enabled</span>
+        <span class="detail-chip">Backup: Google Drive</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SSIDs -->
+  <div class="section-title">02 &nbsp; WIRELESS SSIDs</div>
+  <div class="ssids-grid">
+
+    <div class="ssid-card ssid-main">
+      <div class="ssid-name"><span class="wifi-icon">📶</span> <span class="c-main">Sassafrassss</span></div>
+      <div class="ssid-security c-main" style="font-size:11px;">🔐 WPA2/3 Transitional → WPA3 Post-Migration</div>
+      <div class="ssid-tags">
+        <span class="ssid-tag c-main border-main">VLAN 10 — Main</span>
+        <span class="ssid-tag" style="color:var(--text3);border-color:var(--text3);">Hidden after burn-in</span>
+        <span class="ssid-tag" style="color:var(--text3);border-color:var(--text3);">5 GHz + 6 GHz</span>
+        <span class="ssid-tag" style="color:var(--text3);border-color:var(--text3);">Band Steering ON</span>
+        <span class="ssid-tag" style="color:var(--text3);border-color:var(--text3);">Client ISO OFF</span>
+        <span class="ssid-tag" style="color:var(--text3);border-color:var(--text3);">PMF Optional</span>
+        <span class="ssid-tag" style="color:var(--yellow);border-color:var(--yellow);">⚠ Apple Private MAC → Disable</span>
+      </div>
+      <div style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);">
+        Personal trusted devices only. Same SSID name as prior AT&amp;T router for seamless cutover. Hide + tighten to WPA3 after 24hr burn-in.
+      </div>
+    </div>
+
+    <div class="ssid-card ssid-home">
+      <div class="ssid-name"><span class="wifi-icon">📶</span> <span style="color:var(--vlan-iot);">Sassafrassss_Home</span></div>
+      <div class="ssid-security" style="font-size:11px;color:var(--vlan-iot);">🔐 WPA2</div>
+      <div class="ssid-tags">
+        <span class="ssid-tag c-iot border-iot">VLAN 50 — Default</span>
+        <span class="ssid-tag c-iot border-iot">VLAN 30 — MAC Override</span>
+        <span class="ssid-tag c-security border-security">VLAN 60 — MAC Override</span>
+        <span class="ssid-tag" style="color:var(--text3);border-color:var(--text3);">All Bands</span>
+        <span class="ssid-tag" style="color:var(--text3);border-color:var(--text3);">Band Steering ON</span>
+        <span class="ssid-tag" style="color:var(--text3);border-color:var(--text3);">Visible</span>
+        <span class="ssid-tag" style="color:var(--text3);border-color:var(--text3);">Client ISO OFF</span>
+      </div>
+      <div style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);">
+        IOT &amp; Security devices land on Media VLAN 50 first, then MAC override → VLAN 30 (IOT) or VLAN 60 (Security).
+      </div>
+    </div>
+
+    <div class="ssid-card ssid-kids">
+      <div class="ssid-name"><span class="wifi-icon">📶</span> <span class="c-kids">SandStorm</span></div>
+      <div class="ssid-security c-kids" style="font-size:11px;">🔐 WPA2/3 Transitional</div>
+      <div class="ssid-tags">
+        <span class="ssid-tag c-kids border-kids">VLAN 40 — Restricted</span>
+        <span class="ssid-tag" style="color:var(--text3);border-color:var(--text3);">2.4 GHz + 5 GHz</span>
+        <span class="ssid-tag" style="color:var(--text3);border-color:var(--text3);">Band Steering ON</span>
+        <span class="ssid-tag" style="color:var(--text3);border-color:var(--text3);">Visible</span>
+        <span class="ssid-tag" style="color:var(--red);border-color:var(--red);">Client ISO ON</span>
+        <span class="ssid-tag" style="color:var(--red);border-color:var(--red);">🌙 Curfew 10PM–7AM</span>
+        <span class="ssid-tag" style="color:var(--yellow);border-color:var(--yellow);">⚠ Apple Private MAC → Disable</span>
+      </div>
+      <div style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);">
+        Kids only. DNS content filtering via OpenDNS FamilyShield. Internet curfew enforced by firewall schedule rule.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- VLANs -->
+  <div class="section-title">03 &nbsp; VLAN SEGMENTS</div>
+  <div class="vlans-grid">
+
+    <!-- VLAN 1 -->
+    <div class="vlan-card">
+      <div class="vlan-id-bar">
+        <span class="vlan-id c-mgmt border-mgmt">VLAN 1</span>
+        <span class="vlan-name c-mgmt">Default / Management</span>
+      </div>
+      <div class="vlan-row"><span class="vlan-key">Subnet</span><span class="vlan-val mono-accent">192.168.1.0/24</span></div>
+      <div class="vlan-row"><span class="vlan-key">Gateway</span><span class="vlan-val">192.168.1.1</span></div>
+      <div class="vlan-row"><span class="vlan-key">DHCP Range</span><span class="vlan-val">.2 – .99</span></div>
+      <div class="vlan-row"><span class="vlan-key">Speed</span><span class="vlan-val">Unlimited</span></div>
+      <div class="vlan-row"><span class="vlan-key">Purpose</span><span class="vlan-val">EX7 mgmt only</span></div>
+    </div>
+
+    <!-- VLAN 10 -->
+    <div class="vlan-card bg-main" style="border-color:rgba(0,230,118,0.2);">
+      <div class="vlan-id-bar">
+        <span class="vlan-id c-main border-main">VLAN 10</span>
+        <span class="vlan-name c-main">Main — Trusted</span>
+      </div>
+      <div class="vlan-row"><span class="vlan-key">Subnet</span><span class="vlan-val mono-accent">192.168.10.0/24</span></div>
+      <div class="vlan-row"><span class="vlan-key">Gateway</span><span class="vlan-val">192.168.10.1</span></div>
+      <div class="vlan-row"><span class="vlan-key">DHCP Range</span><span class="vlan-val">.100 – .200</span></div>
+      <div class="vlan-row"><span class="vlan-key">Speed</span><span class="vlan-val">Unlimited</span></div>
+      <div class="vlan-row"><span class="vlan-key">SSID</span><span class="vlan-val c-main">Sassafrassss</span></div>
+      <div class="devices-list">
+        <span class="device-chip">📱 iPhones ×2</span>
+        <span class="device-chip">📱 iPads ×3</span>
+        <span class="device-chip">💻 MacBook Air ×2</span>
+        <span class="device-chip">⌚ Apple Watch</span>
+        <span class="device-chip">🖥 Linux Box [STATIC]</span>
+      </div>
+    </div>
+
+    <!-- VLAN 20 -->
+    <div class="vlan-card">
+      <div class="vlan-id-bar">
+        <span class="vlan-id c-wfh border-wfh">VLAN 20</span>
+        <span class="vlan-name c-wfh">WFH — Reserved</span>
+      </div>
+      <div class="vlan-row"><span class="vlan-key">Subnet</span><span class="vlan-val mono-accent">192.168.20.0/24</span></div>
+      <div class="vlan-row"><span class="vlan-key">Gateway</span><span class="vlan-val">192.168.20.1</span></div>
+      <div class="vlan-row"><span class="vlan-key">DHCP Range</span><span class="vlan-val">.100 – .150</span></div>
+      <div class="vlan-row"><span class="vlan-key">Speed</span><span class="vlan-val">Unlimited</span></div>
+      <div class="vlan-row"><span class="vlan-key">Status</span><span class="vlan-val" style="color:var(--yellow);">Reserved — Future Use</span></div>
+      <div class="devices-list">
+        <span class="device-chip" style="color:var(--text3);">WFH devices currently on VLAN 50</span>
+      </div>
+    </div>
+
+    <!-- VLAN 30 -->
+    <div class="vlan-card bg-iot" style="border-color:rgba(255,152,0,0.2);">
+      <div class="vlan-id-bar">
+        <span class="vlan-id c-iot border-iot">VLAN 30</span>
+        <span class="vlan-name c-iot">IOT — Appliances</span>
+      </div>
+      <div class="vlan-row"><span class="vlan-key">Subnet</span><span class="vlan-val mono-accent">192.168.30.0/24</span></div>
+      <div class="vlan-row"><span class="vlan-key">Gateway</span><span class="vlan-val">192.168.30.1</span></div>
+      <div class="vlan-row"><span class="vlan-key">DHCP Range</span><span class="vlan-val">.100 – .200</span></div>
+      <div class="vlan-row"><span class="vlan-key">Speed DL/UL</span><span class="vlan-val">10 / 5 Mbps</span></div>
+      <div class="vlan-row"><span class="vlan-key">SSID</span><span class="vlan-val c-iot">Sassafrassss_Home + MAC Override</span></div>
+      <div class="vlan-row"><span class="vlan-key">Static IPs</span><span class="vlan-val">Sonos ×2 [STATIC]</span></div>
+      <div class="devices-list">
+        <span class="device-chip">🍽 LG Dishwasher</span>
+        <span class="device-chip">🍳 LG Oven</span>
+        <span class="device-chip">🍳 LG Range</span>
+        <span class="device-chip">🧊 LG Fridge</span>
+        <span class="device-chip">💡 Wiz Lights ×2</span>
+        <span class="device-chip">🔊 Sonos ×2</span>
+        <span class="device-chip">🗣 Echo ×3</span>
+        <span class="device-chip">⚡ GE Module</span>
+      </div>
+    </div>
+
+    <!-- VLAN 40 -->
+    <div class="vlan-card bg-kids" style="border-color:rgba(255,213,79,0.2);">
+      <div class="vlan-id-bar">
+        <span class="vlan-id c-kids border-kids">VLAN 40</span>
+        <span class="vlan-name c-kids">Restricted — Kids</span>
+      </div>
+      <div class="vlan-row"><span class="vlan-key">Subnet</span><span class="vlan-val mono-accent">192.168.40.0/24</span></div>
+      <div class="vlan-row"><span class="vlan-key">Gateway</span><span class="vlan-val">192.168.40.1</span></div>
+      <div class="vlan-row"><span class="vlan-key">DHCP Range</span><span class="vlan-val">.100 – .130</span></div>
+      <div class="vlan-row"><span class="vlan-key">Speed DL/UL</span><span class="vlan-val">25 / 10 Mbps</span></div>
+      <div class="vlan-row"><span class="vlan-key">DNS</span><span class="vlan-val" style="color:var(--yellow);">OpenDNS FamilyShield [STATIC]</span></div>
+      <div class="vlan-row"><span class="vlan-key">SSID</span><span class="vlan-val c-kids">SandStorm</span></div>
+      <div class="devices-list">
+        <span class="device-chip">🖥 Desktop PC</span>
+        <span class="device-chip">📱 Kids iPhones ×2</span>
+        <span class="device-chip">📱 Kids iPads ×2</span>
+      </div>
+    </div>
+
+    <!-- VLAN 50 -->
+    <div class="vlan-card bg-media" style="border-color:rgba(206,147,216,0.2);">
+      <div class="vlan-id-bar">
+        <span class="vlan-id c-media border-media">VLAN 50</span>
+        <span class="vlan-name c-media">Media / Guest</span>
+      </div>
+      <div class="vlan-row"><span class="vlan-key">Subnet</span><span class="vlan-val mono-accent">192.168.50.0/24</span></div>
+      <div class="vlan-row"><span class="vlan-key">Gateway</span><span class="vlan-val">192.168.50.1</span></div>
+      <div class="vlan-row"><span class="vlan-key">DHCP Range</span><span class="vlan-val">.100 – .200</span></div>
+      <div class="vlan-row"><span class="vlan-key">Speed DL/UL</span><span class="vlan-val">50 / 20 Mbps</span></div>
+      <div class="vlan-row"><span class="vlan-key">SSID</span><span class="vlan-val c-media">Sassafrassss_Home (default)</span></div>
+      <div class="vlan-row"><span class="vlan-key">Static IPs</span><span class="vlan-val">Printer [STATIC]</span></div>
+      <div class="devices-list">
+        <span class="device-chip">🖨 HP Printer</span>
+        <span class="device-chip">📺 Roku</span>
+        <span class="device-chip">📺 Cast TV</span>
+        <span class="device-chip">💻 WFH Laptops</span>
+        <span class="device-chip">📱 WFH Phones</span>
+      </div>
+    </div>
+
+    <!-- VLAN 60 -->
+    <div class="vlan-card bg-security" style="border-color:rgba(77,208,225,0.2); grid-column: span 3;">
+      <div class="vlan-id-bar">
+        <span class="vlan-id c-security border-security">VLAN 60</span>
+        <span class="vlan-name c-security">Security — Cameras &amp; Alarm ★ NEW</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;">
+        <div>
+          <div class="vlan-row"><span class="vlan-key">Subnet</span><span class="vlan-val mono-accent">192.168.60.0/24</span></div>
+          <div class="vlan-row"><span class="vlan-key">Gateway</span><span class="vlan-val">192.168.60.1</span></div>
+        </div>
+        <div>
+          <div class="vlan-row"><span class="vlan-key">DHCP Range</span><span class="vlan-val">.100 – .199</span></div>
+          <div class="vlan-row"><span class="vlan-key">Speed DL/UL</span><span class="vlan-val">10 / 5 Mbps</span></div>
+        </div>
+        <div>
+          <div class="vlan-row"><span class="vlan-key">SSID</span><span class="vlan-val c-security">Sassafrassss_Home + MAC Override</span></div>
+          <div class="vlan-row"><span class="vlan-key">Static IPs</span><span class="vlan-val">Ring ×2, SimpliSafe [STATIC]</span></div>
+        </div>
+        <div>
+          <div class="vlan-row"><span class="vlan-key">Isolation</span><span class="vlan-val" style="color:var(--red);">Full — Internet Only</span></div>
+          <div class="vlan-row"><span class="vlan-key">Rationale</span><span class="vlan-val">Separate from IOT</span></div>
+        </div>
+        <div class="devices-list" style="align-content:start;">
+          <span class="device-chip">📷 Ring Camera ×2</span>
+          <span class="device-chip">🚨 SimpliSafe Base</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FIREWALL RULES -->
+  <div class="section-title">04 &nbsp; FIREWALL RULES &nbsp;— Settings → Security → Traffic &amp; Firewall Rules → Advanced · Type: LAN In</div>
+  <table class="fw-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Rule Name</th>
+        <th>Action</th>
+        <th>Source</th>
+        <th>Destination</th>
+        <th>Dest Ports</th>
+        <th>Proto</th>
+        <th>Schedule</th>
+        <th>Purpose</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-num">1</td>
+        <td class="fw-name">Printer_Access</td>
+        <td><span class="allow-badge">ALLOW</span></td>
+        <td>Trusted_VLANs</td>
+        <td>192.168.50.50 [STATIC]</td>
+        <td>Print_Ports</td>
+        <td>TCP</td>
+        <td>Always</td>
+        <td class="fw-purpose">Main + Media + Kids → HP Printer. Must be above Media/Kids isolate.</td>
+      </tr>
+      <tr>
+        <td class="fw-num">2</td>
+        <td class="fw-name">Shared_Media</td>
+        <td><span class="allow-badge">ALLOW</span></td>
+        <td>Trusted_VLANs</td>
+        <td>Sonos_IPs [STATIC ×2]</td>
+        <td>Sonos_Ports</td>
+        <td>TCP</td>
+        <td>Always</td>
+        <td class="fw-purpose">Casting from Main/Media → Sonos on IOT VLAN. Must be above IOT_Isolate.</td>
+      </tr>
+      <tr>
+        <td class="fw-num">3</td>
+        <td class="fw-name">IOT_Settings_Access</td>
+        <td><span class="allow-badge">ALLOW</span></td>
+        <td>Main VLAN 10</td>
+        <td>IOT_VLAN 30</td>
+        <td>Web_Mgmt</td>
+        <td>TCP</td>
+        <td>Always</td>
+        <td class="fw-purpose">Main → LG ThinQ local mgmt. Narrow to specific IPs in Phase 4.</td>
+      </tr>
+      <tr>
+        <td class="fw-num">4</td>
+        <td class="fw-name c-security">Security_Settings_Access</td>
+        <td><span class="allow-badge">ALLOW</span></td>
+        <td>Main VLAN 10</td>
+        <td>Security_VLAN 60</td>
+        <td>Web_Mgmt</td>
+        <td>TCP</td>
+        <td>Always</td>
+        <td class="fw-purpose">Main → Ring + SimpliSafe local mgmt on Security VLAN.</td>
+      </tr>
+      <tr>
+        <td class="fw-num">5</td>
+        <td class="fw-name c-kids">Kids_Curfew</td>
+        <td><span class="block-badge">BLOCK</span></td>
+        <td>Kids_VLAN 40</td>
+        <td>Internet / WAN</td>
+        <td>Any</td>
+        <td>All</td>
+        <td style="color:var(--yellow);font-family:'JetBrains Mono',monospace;font-size:11px;">22:00 – 07:00</td>
+        <td class="fw-purpose">No internet for kids after 10PM. Timezone: America/New_York.</td>
+      </tr>
+      <tr>
+        <td class="fw-num">6</td>
+        <td class="fw-name c-iot">IOT_Isolate</td>
+        <td><span class="block-badge">BLOCK</span></td>
+        <td>IOT_VLAN 30</td>
+        <td>RFC1918_All</td>
+        <td>Any</td>
+        <td>All</td>
+        <td>Always</td>
+        <td class="fw-purpose">IOT internet-only. Cannot reach any private LAN address.</td>
+      </tr>
+      <tr>
+        <td class="fw-num">7</td>
+        <td class="fw-name c-security">Security_Isolate</td>
+        <td><span class="block-badge">BLOCK</span></td>
+        <td>Security_VLAN 60</td>
+        <td>RFC1918_All</td>
+        <td>Any</td>
+        <td>All</td>
+        <td>Always</td>
+        <td class="fw-purpose">Cameras/alarm internet-only. No lateral movement to other VLANs.</td>
+      </tr>
+      <tr>
+        <td class="fw-num">8</td>
+        <td class="fw-name c-kids">Kids_Isolate</td>
+        <td><span class="block-badge">BLOCK</span></td>
+        <td>Kids_VLAN 40</td>
+        <td>RFC1918_All</td>
+        <td>Any</td>
+        <td>All</td>
+        <td>Always</td>
+        <td class="fw-purpose">Kids cannot reach any other VLAN. Printer still works via Rule 1.</td>
+      </tr>
+      <tr>
+        <td class="fw-num">9</td>
+        <td class="fw-name c-media">Media_Isolate</td>
+        <td><span class="block-badge">BLOCK</span></td>
+        <td>Media_VLAN 50</td>
+        <td>RFC1918_All</td>
+        <td>Any</td>
+        <td>All</td>
+        <td>Always</td>
+        <td class="fw-purpose">Media/Guest internet-only. Cannot reach Main, IOT, or Security.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- IP GROUPS & PORT GROUPS -->
+  <div class="section-title">05 &nbsp; FIREWALL OBJECTS — Settings → Security → Groups</div>
+  <div class="groups-grid">
+    <div class="group-card">
+      <div class="group-title">🗂 IP Groups</div>
+      <div class="group-entry"><span class="group-key">RFC1918_All</span><span class="group-val">10.0.0.0/8 · 172.16.0.0/12 · 192.168.0.0/16</span></div>
+      <div class="group-entry"><span class="group-key">Trusted_VLANs</span><span class="group-val">192.168.10.0/24 · 192.168.50.0/24</span></div>
+      <div class="group-entry"><span class="group-key">IOT_VLAN</span><span class="group-val">192.168.30.0/24</span></div>
+      <div class="group-entry"><span class="group-key">Security_VLAN</span><span class="group-val">192.168.60.0/24</span></div>
+      <div class="group-entry"><span class="group-key">Kids_VLAN</span><span class="group-val">192.168.40.0/24</span></div>
+      <div class="group-entry"><span class="group-key">Media_VLAN</span><span class="group-val">192.168.50.0/24</span></div>
+      <div class="group-entry"><span class="group-key">Sonos_IPs</span><span class="group-val">192.168.30.10 · 192.168.30.11 [STATIC]</span></div>
+    </div>
+    <div class="group-card">
+      <div class="group-title">🔌 Port Groups</div>
+      <div class="group-entry"><span class="group-key">Print_Ports</span><span class="group-val">TCP 9100 · 631 · 443</span></div>
+      <div class="group-entry"><span class="group-key">Sonos_Ports</span><span class="group-val">TCP 1400 · 4070</span></div>
+      <div class="group-entry"><span class="group-key">Web_Mgmt</span><span class="group-val">TCP 80 · 443</span></div>
+      <div style="margin-top:16px;" class="group-title">📌 Static IP Reservations</div>
+      <div class="group-entry"><span class="group-key">HP Printer</span><span class="group-val">192.168.50.50 — VLAN 50</span></div>
+      <div class="group-entry"><span class="group-key">Sonos Speaker #1</span><span class="group-val">192.168.30.10 — VLAN 30</span></div>
+      <div class="group-entry"><span class="group-key">Sonos Speaker #2</span><span class="group-val">192.168.30.11 — VLAN 30</span></div>
+      <div class="group-entry"><span class="group-key">Ring Camera ×2</span><span class="group-val">192.168.60.20 · .21 — VLAN 60</span></div>
+      <div class="group-entry"><span class="group-key">SimpliSafe Base</span><span class="group-val">192.168.60.30 — VLAN 60</span></div>
+      <div class="group-entry"><span class="group-key">Linux Box</span><span class="group-val">192.168.10.10 — VLAN 10</span></div>
+    </div>
+  </div>
+
+  <!-- SPECIAL CONFIGS -->
+  <div class="section-title">06 &nbsp; SPECIAL CONFIGURATIONS &amp; NOTES</div>
+  <div class="notes-grid">
+    <div class="note-card info">
+      <div class="note-title">📡 mDNS Repeater</div>
+      <div class="note-body">
+        Settings → Networks → mDNS → ON<br>
+        Bridge: Main ↔ IOT<br>
+        Bridge: Media ↔ IOT<br>
+        Required for Sonos + Chromecast discovery across VLANs. Without this, Shared_Media firewall rule alone will not work.
+      </div>
+    </div>
+    <div class="note-card warn">
+      <div class="note-title">⚠ IGMP Snooping</div>
+      <div class="note-body">
+        Settings → Networks → Multicast Settings<br>
+        IGMP Snooping → OFF for IOT + Media VLANs<br>
+        Multicast to Unicast → OFF on Sassafrassss_Home SSID (WiFi → Advanced)<br>
+        UniFi aggressive IGMP drops multicast packets Sonos + Chromecast rely on.
+      </div>
+    </div>
+    <div class="note-card warn">
+      <div class="note-title">⚠ Apple Private MAC</div>
+      <div class="note-body">
+        Must disable on every Apple device after first connect to each SSID.<br>
+        iPhone/iPad: Settings → WiFi → ⓘ → Private Wi-Fi Address → OFF<br>
+        Mac: System Settings → WiFi → Details → uncheck Private Address<br>
+        Apple Watch: Settings → WiFi → network → Private Address → OFF
+      </div>
+    </div>
+    <div class="note-card ok">
+      <div class="note-title">🌐 OpenDNS FamilyShield</div>
+      <div class="note-body">
+        VLAN 40 (Kids/Restricted) only<br>
+        DNS: 208.67.222.123<br>
+        Set in: Networks → VLAN 40 → DNS<br>
+        Free, no account needed. DNS-level content filtering. Cannot be bypassed by kids.
+      </div>
+    </div>
+    <div class="note-card ok">
+      <div class="note-title">🔄 IOT Device Onboarding</div>
+      <div class="note-body">
+        1. Connect to Sassafrassss_Home → lands on VLAN 50<br>
+        2. Complete device setup via app (fully functional)<br>
+        3. UniFi → Clients → device → Network Override → VLAN 30 or 60<br>
+        4. Device reconnects to correct VLAN automatically
+      </div>
+    </div>
+    <div class="note-card info">
+      <div class="note-title">💾 Backup Strategy</div>
+      <div class="note-body">
+        Pre-cutover: backup before any changes<br>
+        Post-cutover: backup after burn-in<br>
+        Final: after all 21 verification tests pass<br>
+        Location: Google Drive<br>
+        File: sassafrassss-final-backup.unf<br>
+        Path: Settings → System → Backup
+      </div>
+    </div>
+  </div>
+
+  <!-- CUTOVER PLAN -->
+  <div class="section-title">07 &nbsp; CUTOVER SEQUENCE</div>
+  <div style="background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin-bottom:32px;">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:2px;margin-bottom:8px;">PHASE 0 — PRE-CUTOVER</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text2);line-height:2;">
+          ☐ All 6 VLANs created<br>
+          ☐ SSIDs created + mapped<br>
+          ☐ IP + Port Groups built<br>
+          ☐ All 9 firewall rules in<br>
+          ☐ System backup taken<br>
+          ☐ 2FA enabled on admin<br>
+          ☐ Timezone = America/New_York
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--green);letter-spacing:2px;margin-bottom:8px;">PHASE 1 — CUTOVER DAY</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text2);line-height:2;">
+          ☐ AT&amp;T IP Passthrough ON<br>
+          ☐ Internet confirmed working<br>
+          ☐ Security devices → VLAN 60<br>
+          ☐ MAC overrides pre-loaded<br>
+          ☐ Static IPs set<br>
+          ☐ Apple Private MAC disabled<br>
+          ☐ MACs pulled from AT&amp;T router
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--yellow);letter-spacing:2px;margin-bottom:8px;">PHASE 2 — 24HR BURN-IN</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text2);line-height:2;">
+          ☐ All devices appear in Clients<br>
+          ☐ Audit UniFi Clients list<br>
+          ☐ Hide SSID after audit<br>
+          ☐ mDNS Repeater ON<br>
+          ☐ IGMP Snooping OFF<br>
+          ☐ Speed profiles applied<br>
+          ☐ Kids curfew schedule set
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--purple);letter-spacing:2px;margin-bottom:8px;">PHASE 3 — VERIFICATION</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text2);line-height:2;">
+          ☐ All 21 verification tests pass<br>
+          ☐ Tighten SSID to WPA3<br>
+          ☐ AT&amp;T router decommissioned<br>
+          ☐ Unknown IOT identified (nmap)<br>
+          ☐ IOT rules tightened to IPs<br>
+          ☐ Final backup → Google Drive
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-left">
+      Sassafrassss Home Network · West Palm Beach, FL · v3.0 · April 2026<br>
+      <span style="color:var(--red);">🔒 Confidential — IP addresses and credentials redacted for public sharing</span>
+    </div>
+    <div class="footer-tags">
+      <span class="footer-tag">UniFi EX7</span>
+      <span class="footer-tag">WiFi 6E</span>
+      <span class="footer-tag">6 VLANs</span>
+      <span class="footer-tag">3 SSIDs</span>
+      <span class="footer-tag">9 Firewall Rules</span>
+      <span class="footer-tag">IP Passthrough</span>
+      <span class="footer-tag">WPA3</span>
+      <span class="footer-tag">Network 8.6.9</span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
